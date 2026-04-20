@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
 import ButtonShowcase from "../components/ButtonShowcase.astro";
+import CardShowcase from "../components/CardShowcase.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import {
 	useTranslations,
@@ -17,6 +18,7 @@ const featured = await getFeaturedProjects(lang);
 <BaseLayout title={t("home.title")} description={t("meta.description")}>
 	<Hero />
 	<ButtonShowcase lang="en" />
+	<CardShowcase lang="en" />
 
 	{
 		featured.length > 0 && (

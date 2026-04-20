@@ -1,0 +1,124 @@
+---
+import Button from "./Button.astro";
+import Card from "./Card.astro";
+
+interface Props {
+  lang?: "en" | "es";
+}
+
+const { lang = "en" } = Astro.props;
+
+const copy = {
+  en: {
+    title: "Card styles",
+    description:
+      "Examples of the card system for featured content, highlighted blocks and compact actions.",
+    heading: "A featured card",
+    body: "This layout is designed for editorial content, summaries and modular sections while keeping the retro-pop visual language consistent.",
+    headingAccent: "A highlighted card",
+    compactBody:
+      "This compact format works well for calls to action, summaries or paired actions.",
+    primary: "Primary",
+    secondary: "Secondary",
+  },
+  es: {
+    title: "Estilos de cards",
+    description:
+      "Ejemplos del sistema de cards para contenido destacado, bloques resaltados y acciones compactas.",
+    heading: "Una card destacada",
+    body: "Este layout funciona para contenido editorial, resúmenes y secciones modulares manteniendo el lenguaje visual retro-pop.",
+    headingAccent: "Una card resaltada",
+    compactBody:
+      "Este formato compacto funciona bien para llamadas a la acción, resúmenes o acciones emparejadas.",
+    primary: "Primary",
+    secondary: "Secondary",
+  },
+}[lang];
+---
+
+<section class="container card-showcase" aria-labelledby="card-showcase-title">
+  <div class="card-showcase__header">
+    <h2 id="card-showcase-title">{copy.title}</h2>
+    <p>{copy.description}</p>
+  </div>
+
+  <div class="card-showcase__grid">
+    <Card
+      title={copy.heading}
+      description={copy.body}
+      variant="blue"
+      useDefaultMedia
+    />
+
+    <Card
+      title={copy.headingAccent}
+      description={copy.body}
+      variant="red"
+      withDivider
+      useDefaultMedia
+    />
+
+    <Card
+      description={copy.compactBody}
+      variant="green"
+      compact
+      class="card-showcase__compact"
+    >
+      <div slot="actions">
+        <Button variant="primary" size="md">{copy.primary}</Button>
+        <Button variant="secondary" size="md">{copy.secondary}</Button>
+      </div>
+    </Card>
+  </div>
+</section>
+
+<style>
+  .card-showcase {
+    padding-block: var(--space-2xl);
+  }
+
+  .card-showcase__header {
+    max-width: 44rem;
+    margin-bottom: var(--space-xl);
+  }
+
+  .card-showcase__header p {
+    margin-top: var(--space-sm);
+    color: var(--color-text-muted);
+  }
+
+  .card-showcase__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-xl);
+    align-items: start;
+  }
+
+  .card-showcase__compact {
+    grid-column: 1 / span 1;
+  }
+
+  .card-showcase__compact :global(.ui-card__actions) {
+    justify-content: flex-start;
+  }
+
+  @media (max-width: 900px) {
+    .card-showcase__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .card-showcase__compact {
+      grid-column: auto;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .card-showcase__compact :global(.ui-card__actions) {
+      flex-direction: column;
+    }
+
+    .card-showcase__compact :global(.btn) {
+      width: 100%;
+    }
+  }
+</style>

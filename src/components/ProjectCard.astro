@@ -1,5 +1,7 @@
 ---
+import { existsSync } from "node:fs";
 import type { CollectionEntry } from "astro:content";
+import Card from "./Card.astro";
 import {
   getLangFromUrl,
   useTranslations,
@@ -16,6 +18,16 @@ const t = useTranslations(lang);
 const { project } = Astro.props;
 const { title, description, tags, date, thumbnail } = project.data;
 const slug = getProjectSlug(project.id);
+const thumbnailExists = thumbnail?.src
+  ? existsSync(new URL(`../../public${thumbnail.src}`, import.meta.url))
+  : false;
+const useFallbackMedia = !thumbnail?.src || !thumbnailExists;
+
+const cardVariant = tags.includes("design")
+  ? "red"
+  : tags.includes("development")
+    ? "green"
+    : "blue";
 
 const formattedDate = date.toLocaleDateString(
   lang === "es" ? "es-ES" : "en-US",
@@ -31,17 +43,24 @@ const formattedDate = date.toLocaleDateString(
   class="project-card"
   data-tags={tags.join(",")}
 >
-  {
-    thumbnail && (
-      <img
-        class="card-thumbnail"
-        src={thumbnail.src}
-        alt={thumbnail.alt}
-        loading="lazy"
-      />
-    )
-  }
-  <div class="card-body">
+  <Card
+    variant={cardVariant}
+    class="project-card__frame"
+    useDefaultMedia={useFallbackMedia}
+    defaultMediaAlt="Jesús Villar alt logo"
+  >
+    {
+      thumbnail?.src && thumbnailExists && (
+        <img
+          slot="media"
+          class="card-thumbnail"
+          src={thumbnail.src}
+          alt={thumbnail.alt}
+          loading="lazy"
+        />
+      )
+    }
+
     <div class="card-tags">
       {
         tags.map((tag) => (
@@ -52,24 +71,25 @@ const formattedDate = date.toLocaleDateString(
     <h3 class="card-title">{title}</h3>
     <p class="card-description">{description}</p>
     <time class="card-date" datetime={date.toISOString()}>{formattedDate}</time>
-  </div>
+  </Card>
 </a>
 
 <style>
   .project-card {
-    display: flex;
-    flex-direction: column;
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--color-border);
-    overflow: hidden;
-    transition: all var(--transition-base);
+    display: block;
     color: var(--color-text);
+    transition:
+      transform var(--transition-base),
+      color var(--transition-base);
   }
 
   .project-card:hover {
-    border-color: var(--color-accent);
     transform: translateY(-2px);
     color: var(--color-text);
+  }
+
+  .project-card__frame {
+    height: 100%;
   }
 
   .card-thumbnail {
@@ -78,16 +98,11 @@ const formattedDate = date.toLocaleDateString(
     object-fit: cover;
   }
 
-  .card-body {
-    padding: var(--space-lg);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-  }
-
   .card-tags {
     display: flex;
+    flex-wrap: wrap;
     gap: var(--space-xs);
+    margin-bottom: var(--space-sm);
   }
 
   .tag {
@@ -100,39 +115,41 @@ const formattedDate = date.toLocaleDateString(
   }
 
   .tag--design {
-    background-color: color-mix(
-      in srgb,
-      var(--color-tag-design) 20%,
-      transparent
-    );
-    color: var(--color-tag-design);
+    background-color: color-mix(in srgb, var(--color-red) 16%, transparent);
+    color: var(--color-red);
+    border-color: var(--color-red);
   }
 
   .tag--development {
-    background-color: color-mix(
-      in srgb,
-      var(--color-tag-development) 20%,
-      transparent
-    );
-    color: var(--color-tag-development);
+    background-color: color-mix(in srgb, var(--color-green) 16%, transparent);
+    color: var(--color-green);
+    border-color: var(--color-green);
   }
 
   .card-title {
-    font-size: var(--text-lg);
+    margin: 0 0 var(--space-sm);
+    font-family: var(--font-body);
+    font-size: clamp(1.7rem, 1.45rem + 0.8vw, 2.2rem);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.05em;
+    color: var(--color-navy);
   }
 
   .card-description {
-    font-size: var(--text-sm);
-    color: var(--color-text-muted);
+    margin: 0;
+    font-size: var(--text-base);
+    color: var(--color-navy);
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
 
   .card-date {
+    display: inline-block;
     font-size: var(--text-xs);
     color: var(--color-text-muted);
-    margin-top: auto;
+    margin-top: var(--space-md);
   }
 </style>

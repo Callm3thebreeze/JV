@@ -1,0 +1,206 @@
+---
+import altLogo from "../assets/alt-logo.png";
+
+interface Props {
+  title?: string;
+  description?: string;
+  variant?: "blue" | "red" | "green";
+  compact?: boolean;
+  withDivider?: boolean;
+  useDefaultMedia?: boolean;
+  defaultMediaAlt?: string;
+  class?: string;
+}
+
+const {
+  title,
+  description,
+  variant = "blue",
+  compact = false,
+  withDivider = variant === "red",
+  useDefaultMedia = false,
+  defaultMediaAlt = "Jesús Villar alt logo",
+  class: className = "",
+} = Astro.props;
+
+const hasTitleSlot = Astro.slots.has("title");
+const hasMediaSlot = Astro.slots.has("media");
+const hasDefaultSlot = Astro.slots.has("default");
+const hasActionsSlot = Astro.slots.has("actions");
+
+const classes = [
+  "ui-card",
+  `ui-card--${variant}`,
+  compact ? "ui-card--compact" : "",
+  className,
+]
+  .filter(Boolean)
+  .join(" ");
+---
+
+<article class={classes}>
+  {
+    (hasMediaSlot || useDefaultMedia) && (
+      <div class="ui-card__media">
+        {hasMediaSlot ? (
+          <slot name="media" />
+        ) : (
+          <img
+            src={altLogo.src}
+            width={altLogo.width}
+            height={altLogo.height}
+            alt={defaultMediaAlt}
+            class="ui-card__fallback-media"
+            loading="lazy"
+          />
+        )}
+      </div>
+    )
+  }
+
+  {
+    (title || hasTitleSlot) && (
+      <header class="ui-card__header">
+        {hasTitleSlot ? (
+          <div
+            class:list={[
+              "ui-card__title",
+              { "ui-card__title--divider": withDivider },
+            ]}
+          >
+            <slot name="title" />
+          </div>
+        ) : (
+          <h2
+            class:list={[
+              "ui-card__title",
+              { "ui-card__title--divider": withDivider },
+            ]}
+          >
+            {title}
+          </h2>
+        )}
+      </header>
+    )
+  }
+
+  {
+    (description || hasDefaultSlot) && (
+      <div class="ui-card__body">
+        {description && <p class="ui-card__description">{description}</p>}
+        <slot />
+      </div>
+    )
+  }
+
+  {
+    hasActionsSlot && (
+      <footer class="ui-card__actions">
+        <slot name="actions" />
+      </footer>
+    )
+  }
+</article>
+
+<style>
+  .ui-card {
+    --card-border-color: var(--color-navy);
+    background-color: var(--color-bg);
+    border: var(--border-thick) solid var(--card-border-color);
+    box-shadow: 4px 4px 0 var(--card-border-color);
+    border-radius: clamp(1.25rem, 2vw, 1.75rem);
+    color: var(--color-navy);
+    padding: clamp(1.5rem, 2vw, 2.5rem);
+    overflow: hidden;
+  }
+
+  .ui-card--red {
+    --card-border-color: var(--color-red);
+  }
+
+  .ui-card--green {
+    --card-border-color: var(--color-green);
+  }
+
+  .ui-card--compact {
+    padding: clamp(1.25rem, 1.6vw, 1.75rem);
+  }
+
+  .ui-card__header {
+    margin-bottom: var(--space-lg);
+  }
+
+  .ui-card__media {
+    margin: calc(clamp(1.5rem, 2vw, 2.5rem) * -1);
+    margin-bottom: var(--space-lg);
+    overflow: hidden;
+  }
+
+  .ui-card__media :global(img) {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+  }
+
+  .ui-card__fallback-media {
+    object-fit: contain !important;
+    padding: var(--space-xl);
+    background-color: color-mix(in srgb, var(--color-bg) 88%, white);
+  }
+
+  .ui-card__title {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: clamp(2rem, 1.7rem + 1.2vw, 3rem);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.05em;
+    color: var(--color-navy);
+  }
+
+  .ui-card__title--divider {
+    padding-bottom: var(--space-sm);
+    border-bottom: 3px dotted var(--card-border-color);
+  }
+
+  .ui-card__body {
+    display: grid;
+    gap: var(--space-md);
+  }
+
+  .ui-card__description,
+  .ui-card__body :global(p) {
+    max-width: 36ch;
+    margin: 0;
+    font-size: var(--text-lg);
+    line-height: 1.7;
+    color: var(--color-navy);
+  }
+
+  .ui-card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-lg);
+    margin-top: var(--space-xl);
+  }
+
+  @media (max-width: 640px) {
+    .ui-card {
+      padding: var(--space-xl);
+    }
+
+    .ui-card__media {
+      margin: calc(var(--space-xl) * -1);
+      margin-bottom: var(--space-lg);
+    }
+
+    .ui-card__description,
+    .ui-card__body :global(p) {
+      font-size: var(--text-base);
+    }
+
+    .ui-card__actions {
+      gap: var(--space-md);
+    }
+  }
+</style>

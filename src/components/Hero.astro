@@ -1,5 +1,6 @@
 ---
 import { getLangFromUrl, useTranslations } from "../i18n/utils";
+import mainLogo from "../assets/main-logo.png";
 import Button from "./Button.astro";
 
 const lang = getLangFromUrl(Astro.url);
@@ -8,77 +9,150 @@ const t = useTranslations(lang);
 
 <section class="hero">
   <div class="container">
-    <h1 class="hero-headline">{t("home.hero.headline")}</h1>
-    <p class="hero-subline">{t("home.hero.subline")}</p>
-    <div class="hero-cta">
-      <Button
-        href={lang === "en" ? "/projects/" : "/es/projects/"}
-        variant="primary"
-        size="lg"
-        iconPosition="right"
-      >
-        {t("home.hero.cta.projects")}
-        <svg
-          slot="icon"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M5 12h14"></path>
-          <path d="m12 5 7 7-7 7"></path>
-        </svg>
-      </Button>
-      <Button
-        href={lang === "en" ? "/contact/" : "/es/contact/"}
-        variant="secondary"
-        size="lg"
-        iconPosition="left"
-      >
-        {t("home.hero.cta.contact")}
-        <svg
-          slot="icon"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2.25"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <rect x="3" y="5" width="18" height="14" rx="2"></rect>
-          <path d="m4 7 8 6 8-6"></path>
-        </svg>
-      </Button>
+    <div class="hero-intro">
+      <div class="hero-logo-wrap">
+        <img
+          src={mainLogo.src}
+          width={mainLogo.width}
+          height={mainLogo.height}
+          alt="Jesús Villar"
+          class="hero-logo"
+          loading="eager"
+          decoding="async"
+        />
+      </div>
+
+      <div class="hero-copy">
+        <h1 class="hero-headline">{t("home.hero.headline")}</h1>
+        <p class="hero-subline">{t("home.hero.subline")}</p>
+        <div class="hero-cta">
+          <Button
+            href={lang === "en" ? "/projects/" : "/es/projects/"}
+            variant="primary"
+            size="lg"
+            iconPosition="right"
+          >
+            {t("home.hero.cta.projects")}
+            <svg
+              slot="icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path>
+            </svg>
+          </Button>
+          <Button
+            href={lang === "en" ? "/contact/" : "/es/contact/"}
+            variant="secondary"
+            size="lg"
+            iconPosition="left"
+          >
+            {t("home.hero.cta.contact")}
+            <svg
+              slot="icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.25"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+              <path d="m4 7 8 6 8-6"></path>
+            </svg>
+          </Button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
   .hero {
-    padding-block: var(--space-3xl);
-    text-align: center;
+    padding-bottom: var(--space-3xl);
+  }
+
+  .hero-intro {
+    display: grid;
+    grid-template-columns: minmax(16rem, 28rem) minmax(0, 1fr);
+    align-items: start;
+    gap: clamp(1.5rem, 4vw, 4rem);
+  }
+
+  .hero-logo-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 2rem;
+  }
+
+  .hero-logo {
+    width: min(100%, 26rem);
+    height: auto;
+  }
+
+  .hero-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: clamp(0.25rem, 1vw, 0.75rem);
   }
 
   .hero-headline {
-    max-width: 14ch;
-    margin-inline: auto;
+    max-width: 12ch;
     margin-bottom: var(--space-lg);
+    text-align: center;
   }
 
   .hero-subline {
     font-size: var(--text-lg);
     color: var(--color-text-muted);
     max-width: 50ch;
-    margin-inline: auto;
     margin-bottom: var(--space-xl);
+    text-align: center;
   }
 
   .hero-cta {
     display: flex;
     gap: var(--space-md);
-    justify-content: center;
     flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  @media (max-width: 860px) {
+    .hero-intro {
+      grid-template-columns: 1fr;
+      gap: var(--space-xl);
+    }
+
+    .hero-logo-wrap {
+      justify-content: center;
+    }
+
+    .hero-copy {
+      align-items: center;
+      padding-top: 0;
+    }
+
+    .hero-headline,
+    .hero-subline {
+      text-align: center;
+      margin-inline: auto;
+    }
+
+    .hero-cta {
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .hero-logo {
+      width: min(100%, 16rem);
+    }
   }
 </style>

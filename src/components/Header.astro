@@ -5,21 +5,32 @@ import smallLogo from "../assets/small-logo.png";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const isHome = Astro.url.pathname === "/" || Astro.url.pathname === "/es/";
 ---
 
-<header class="site-header">
-  <div class="container header-inner">
-    <a href={localizedPath(lang, "/")} class="logo" aria-label={t("nav.home")}>
-      <img
-        src={smallLogo.src}
-        width={smallLogo.width}
-        height={smallLogo.height}
-        alt="Jesús Villar"
-        class="logo__img"
-        loading="eager"
-        decoding="async"
-      />
-    </a>
+<header class="site-header" data-site-header>
+  <div
+    class:list={["container header-inner", { "header-inner--home": isHome }]}
+  >
+    {
+      !isHome && (
+        <a
+          href={localizedPath(lang, "/")}
+          class="logo"
+          aria-label={t("nav.home")}
+        >
+          <img
+            src={smallLogo.src}
+            width={smallLogo.width}
+            height={smallLogo.height}
+            alt="Jesús Villar"
+            class="logo__img"
+            loading="eager"
+            decoding="async"
+          />
+        </a>
+      )
+    }
 
     <nav class="main-nav" aria-label="Main navigation">
       <ul>
@@ -33,7 +44,9 @@ const t = useTranslations(lang);
       </ul>
     </nav>
 
-    <LanguageSwitcher />
+    <div class="header-lang-switcher">
+      <LanguageSwitcher />
+    </div>
   </div>
 </header>
 
@@ -43,8 +56,22 @@ const t = useTranslations(lang);
     top: 0;
     z-index: 100;
     height: var(--header-height);
-    background-color: var(--color-bg);
-    border-bottom: 1px solid var(--color-border);
+    background-color: transparent;
+    border-bottom: 5px solid transparent;
+    transition:
+      transform var(--transition-base),
+      background-color var(--transition-base),
+      border-color var(--transition-base);
+    will-change: transform;
+  }
+
+  .site-header.is-hidden {
+    transform: translateY(calc(-100% - var(--space-sm)));
+  }
+
+  .site-header.is-scrolled {
+    background-color: rgb(255, 245, 210);
+    border-bottom-color: var(--color-navy);
   }
 
   .header-inner {
@@ -52,6 +79,27 @@ const t = useTranslations(lang);
     align-items: center;
     justify-content: space-between;
     height: 100%;
+  }
+
+  .header-inner--home {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    justify-content: unset;
+  }
+
+  .header-inner--home .main-nav {
+    grid-column: 2;
+    justify-self: center;
+  }
+
+  .header-inner--home .header-lang-switcher {
+    grid-column: 3;
+    justify-self: end;
+  }
+
+  .header-lang-switcher {
+    display: flex;
+    justify-content: flex-end;
   }
 
   .logo {
@@ -94,4 +142,76 @@ const t = useTranslations(lang);
   .main-nav a:hover {
     color: var(--color-accent);
   }
+
+  @media (max-width: 640px) {
+    .header-inner {
+      gap: var(--space-md);
+    }
+
+    .header-inner--home {
+      grid-template-columns: 1fr auto;
+      gap: var(--space-md);
+    }
+
+    .header-inner--home .main-nav {
+      grid-column: 1;
+      justify-self: start;
+    }
+
+    .header-inner--home .header-lang-switcher {
+      grid-column: 2;
+      justify-self: end;
+    }
+
+    .main-nav ul {
+      gap: var(--space-md);
+    }
+  }
 </style>
+
+<script is:inline>
+  const setupHeaderScroll = () => {
+    const header = document.querySelector("[data-site-header]");
+    if (!(header instanceof HTMLElement)) return;
+
+    if (window.__jvHeaderScrollCleanup__) {
+      window.__jvHeaderScrollCleanup__();
+    }
+
+    let lastScrollY = window.scrollY;
+    let ticking = false;
+
+    const updateHeaderVisibility = () => {
+      const currentScrollY = window.scrollY;
+      const delta = currentScrollY - lastScrollY;
+      const isAtTop = currentScrollY <= 16;
+
+      if (isAtTop || delta < -4) {
+        header.classList.remove("is-hidden");
+      } else if (delta > 4) {
+        header.classList.add("is-hidden");
+      }
+
+      header.classList.toggle("is-scrolled", !isAtTop);
+
+      lastScrollY = currentScrollY;
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(updateHeaderVisibility);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.__jvHeaderScrollCleanup__ = () => {
+      window.removeEventListener("scroll", onScroll);
+    };
+
+    updateHeaderVisibility();
+  };
+
+  setupHeaderScroll();
+  document.addEventListener("astro:page-load", setupHeaderScroll);
+</script>

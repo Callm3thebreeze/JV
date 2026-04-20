@@ -41,8 +41,13 @@ function getAlternatePath(targetLang: Lang): string {
     font-size: var(--text-sm);
     font-weight: 600;
     padding: var(--space-xs) var(--space-sm);
-    border-radius: var(--radius-sm);
-    transition: all var(--transition-fast);
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-decoration-thickness: 0.14em;
+    text-underline-offset: 0.24em;
+    transition:
+      color var(--transition-fast),
+      text-decoration-color var(--transition-fast);
   }
 
   .lang-link:hover {
@@ -51,6 +56,6 @@ function getAlternatePath(targetLang: Lang): string {
 
   .lang-link.active {
     color: var(--color-text);
-    background-color: var(--color-border);
+    text-decoration-color: currentColor;
   }
 </style>
