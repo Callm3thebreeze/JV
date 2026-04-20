@@ -1,0 +1,97 @@
+---
+import { getLangFromUrl, useTranslations, localizedPath } from "../i18n/utils";
+import LanguageSwitcher from "./LanguageSwitcher.astro";
+import smallLogo from "../assets/small-logo.png";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href={localizedPath(lang, "/")} class="logo" aria-label={t("nav.home")}>
+      <img
+        src={smallLogo.src}
+        width={smallLogo.width}
+        height={smallLogo.height}
+        alt="Jesús Villar"
+        class="logo__img"
+        loading="eager"
+        decoding="async"
+      />
+    </a>
+
+    <nav class="main-nav" aria-label="Main navigation">
+      <ul>
+        <li><a href={localizedPath(lang, "/")}>{t("nav.home")}</a></li>
+        <li>
+          <a href={localizedPath(lang, "/projects/")}>{t("nav.projects")}</a>
+        </li>
+        <li>
+          <a href={localizedPath(lang, "/contact/")}>{t("nav.contact")}</a>
+        </li>
+      </ul>
+    </nav>
+
+    <LanguageSwitcher />
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: var(--header-height);
+    background-color: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  .logo__img {
+    width: clamp(3rem, 7vw, 5.5rem);
+    height: auto;
+    transition:
+      transform var(--transition-fast),
+      filter var(--transition-fast);
+  }
+
+  .logo:hover .logo__img {
+    transform: translateY(-1px);
+    filter: saturate(1.1);
+  }
+
+  .logo:focus-visible {
+    outline: var(--border-medium) solid var(--color-blue-light);
+    outline-offset: 4px;
+    border-radius: var(--radius-md);
+  }
+
+  .main-nav ul {
+    display: flex;
+    gap: var(--space-lg);
+  }
+
+  .main-nav a {
+    color: var(--color-text);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    transition: color var(--transition-fast);
+  }
+
+  .main-nav a:hover {
+    color: var(--color-accent);
+  }
+</style>

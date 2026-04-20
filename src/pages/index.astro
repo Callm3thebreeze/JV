@@ -1,0 +1,58 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import ButtonShowcase from "../components/ButtonShowcase.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import {
+	useTranslations,
+	getFeaturedProjects,
+	localizedPath,
+} from "../i18n/utils";
+
+const lang = "en";
+const t = useTranslations(lang);
+const featured = await getFeaturedProjects(lang);
+---
+
+<BaseLayout title={t("home.title")} description={t("meta.description")}>
+	<Hero />
+	<ButtonShowcase lang="en" />
+
+	{
+		featured.length > 0 && (
+			<section class="container featured">
+				<div class="featured-header">
+					<h2>{t("home.featured.title")}</h2>
+					<a href={localizedPath(lang, "/projects/")}>
+						{t("home.featured.viewAll")} &rarr;
+					</a>
+				</div>
+				<div class="projects-grid">
+					{featured.map((project) => (
+						<ProjectCard project={project} />
+					))}
+				</div>
+			</section>
+		)
+	}
+</BaseLayout>
+
+<style>
+	.featured {
+		padding-block: var(--space-2xl);
+	}
+
+	.featured-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		margin-bottom: var(--space-xl);
+		flex-wrap: wrap;
+		gap: var(--space-md);
+	}
+
+	.featured-header a {
+		font-size: var(--text-sm);
+		font-weight: 600;
+	}
+</style>

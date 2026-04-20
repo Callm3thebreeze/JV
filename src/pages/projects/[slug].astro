@@ -1,0 +1,27 @@
+---
+import ProjectLayout from "../../layouts/ProjectLayout.astro";
+import { getCollection, render } from "astro:content";
+import { getProjectSlug } from "../../i18n/utils";
+import type { CollectionEntry } from "astro:content";
+
+export async function getStaticPaths() {
+  const allProjects = await getCollection("projects");
+  const enProjects = allProjects.filter((p) => p.data.lang === "en");
+
+  return enProjects.map((project) => ({
+    params: { slug: getProjectSlug(project.id) },
+    props: { project },
+  }));
+}
+
+interface Props {
+  project: CollectionEntry<"projects">;
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+
+<ProjectLayout project={project}>
+  <Content />
+</ProjectLayout>

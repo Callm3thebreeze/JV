@@ -1,0 +1,39 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+import TagFilter from "../../components/TagFilter.astro";
+import { useTranslations, getProjectsByLocale } from "../../i18n/utils";
+
+const lang = "en";
+const t = useTranslations(lang);
+const projects = await getProjectsByLocale(lang);
+---
+
+<BaseLayout
+  title={`${t("projects.title")} — Jesús Villar`}
+  description={t("projects.description")}
+>
+  <div class="container">
+    <header class="page-header">
+      <h1>{t("projects.title")}</h1>
+      <p>{t("projects.description")}</p>
+    </header>
+
+    <TagFilter />
+
+    <div class="projects-grid">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-header {
+    margin-bottom: var(--space-xl);
+  }
+
+  .page-header p {
+    color: var(--color-text-muted);
+    margin-top: var(--space-sm);
+  }
+</style>

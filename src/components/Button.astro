@@ -1,0 +1,91 @@
+---
+interface Props {
+  variant?: "primary" | "secondary" | "disabled" | "success" | "error";
+  size?: "sm" | "md" | "lg";
+  type?: "button" | "submit" | "reset";
+  href?: string;
+  disabled?: boolean;
+  class?: string;
+  ariaLabel?: string;
+  iconPosition?: "left" | "right";
+  [key: string]: unknown;
+}
+
+const {
+  variant = "primary",
+  size = "md",
+  type = "button",
+  href,
+  disabled = false,
+  class: className = "",
+  ariaLabel,
+  iconPosition = "left",
+  ...rest
+} = Astro.props;
+
+const isDisabled = disabled || variant === "disabled";
+const hasIcon = Astro.slots.has("icon");
+
+const variantClassMap = {
+  primary: "btn--primary",
+  secondary: "btn--secondary",
+  disabled: "btn--secondary",
+  success: "btn--success",
+  error: "btn--danger",
+} as const;
+
+const sizeClassMap = {
+  sm: "btn--sm",
+  md: "btn--md",
+  lg: "btn--lg",
+} as const;
+
+const classes = [
+  "btn",
+  variantClassMap[variant],
+  sizeClassMap[size],
+  hasIcon ? "btn--with-icon" : "",
+  className,
+]
+  .filter(Boolean)
+  .join(" ");
+---
+
+{
+  href && !isDisabled ? (
+    <a href={href} class={classes} aria-label={ariaLabel} {...rest}>
+      {hasIcon && iconPosition === "left" && (
+        <span class="btn__icon" aria-hidden="true">
+          <slot name="icon" />
+        </span>
+      )}
+      <slot />
+      {hasIcon && iconPosition === "right" && (
+        <span class="btn__icon" aria-hidden="true">
+          <slot name="icon" />
+        </span>
+      )}
+    </a>
+  ) : (
+    <button
+      type={type}
+      class={classes}
+      disabled={isDisabled}
+      aria-disabled={isDisabled ? "true" : undefined}
+      aria-label={ariaLabel}
+      {...rest}
+    >
+      {hasIcon && iconPosition === "left" && (
+        <span class="btn__icon" aria-hidden="true">
+          <slot name="icon" />
+        </span>
+      )}
+      <slot />
+      {hasIcon && iconPosition === "right" && (
+        <span class="btn__icon" aria-hidden="true">
+          <slot name="icon" />
+        </span>
+      )}
+    </button>
+  )
+}

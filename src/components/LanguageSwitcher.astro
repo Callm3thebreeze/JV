@@ -1,0 +1,56 @@
+---
+import { getLangFromUrl } from "../i18n/utils";
+import { languages, type Lang } from "../i18n/ui";
+
+const lang = getLangFromUrl(Astro.url);
+const currentPath = Astro.url.pathname;
+
+function getAlternatePath(targetLang: Lang): string {
+  if (targetLang === "en") {
+    // Remove /es prefix
+    return currentPath.replace(/^\/es/, "") || "/";
+  }
+  // Add /es prefix
+  return `/es${currentPath}`;
+}
+---
+
+<div class="lang-switcher">
+  {
+    Object.entries(languages).map(([code, label]) => (
+      <a
+        href={getAlternatePath(code as Lang)}
+        class:list={["lang-link", { active: lang === code }]}
+        aria-label={`Switch to ${label}`}
+        aria-current={lang === code ? "page" : undefined}
+      >
+        {code.toUpperCase()}
+      </a>
+    ))
+  }
+</div>
+
+<style>
+  .lang-switcher {
+    display: flex;
+    gap: var(--space-xs);
+  }
+
+  .lang-link {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+  }
+
+  .lang-link:hover {
+    color: var(--color-accent);
+  }
+
+  .lang-link.active {
+    color: var(--color-text);
+    background-color: var(--color-border);
+  }
+</style>

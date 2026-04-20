@@ -1,0 +1,604 @@
+/* ========================================
+   Jesús Villar — Portfolio
+   Retro-Pop Design System
+   ======================================== */
+
+/* ----------------------------------------
+   1. Design Tokens (Custom Properties)
+   ---------------------------------------- */
+
+:root {
+  /* ---- Color Palette ---- */
+  --color-navy: #002E73;
+  --color-blue: #1F45CC;
+  --color-green: #2CC268;
+  --color-blue-light: #4C71F4;
+  --color-lavender: #CDD5F2;
+  --color-red: #FA4B4B;
+  --color-cream: #FFF5D2;
+
+  /* ---- Semantic Colors ---- */
+  --color-bg: var(--color-cream);
+  --color-surface: #ffffff;
+  --color-text: var(--color-navy);
+  --color-text-muted: #4a5a7a;
+  --color-accent: var(--color-blue);
+  --color-accent-hover: var(--color-blue-light);
+  --color-border: var(--color-blue);
+  --color-success: var(--color-green);
+  --color-danger: var(--color-red);
+
+  /* ---- Grid-paper background ---- */
+  --grid-color: rgba(250, 75, 75, 0.1);
+  --grid-size: 2.5rem;
+
+  /* ---- Typography ---- */
+  --font-display: 'Bagel Fat One', cursive;
+  --font-body: 'Kannada Sangam MN', 'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --display-letter-spacing: -0.04em;
+
+  --text-xs: clamp(0.7rem, 0.65rem + 0.25vw, 0.75rem);
+  --text-sm: clamp(0.8rem, 0.75rem + 0.25vw, 0.875rem);
+  --text-base: clamp(0.95rem, 0.9rem + 0.25vw, 1.05rem);
+  --text-lg: clamp(1.05rem, 1rem + 0.25vw, 1.15rem);
+  --text-xl: clamp(1.2rem, 1.1rem + 0.5vw, 1.35rem);
+  --text-2xl: clamp(1.4rem, 1.2rem + 1vw, 1.75rem);
+  --text-3xl: clamp(1.75rem, 1.5rem + 1.25vw, 2.25rem);
+  --text-4xl: clamp(2.1rem, 1.75rem + 1.75vw, 3rem);
+  --text-5xl: clamp(2.5rem, 2rem + 2.5vw, 4rem);
+
+  /* ---- Spacing ---- */
+  --space-2xs: 0.125rem;
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  --space-4xl: 6rem;
+
+  /* ---- Layout ---- */
+  --max-width: 1200px;
+  --content-width: 800px;
+  --header-height: 4.5rem;
+
+  /* ---- Borders & Radius ---- */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.75rem;
+  --radius-full: 9999px;
+  --border-thin: 2px;
+  --border-medium: 3px;
+  --border-thick: 4px;
+
+  /* ---- Shadows ---- */
+  --shadow-sm: 2px 2px 0 var(--color-navy);
+  --shadow-md: 4px 4px 0 var(--color-navy);
+  --shadow-lg: 6px 6px 0 var(--color-navy);
+  --shadow-color-blue: 4px 4px 0 var(--color-blue);
+  --shadow-color-red: 4px 4px 0 var(--color-red);
+
+  /* ---- Transitions ---- */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-spring: 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ----------------------------------------
+   2. Reset
+   ---------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  background-image:
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: var(--grid-size) var(--grid-size);
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  letter-spacing: -0.035em;
+}
+
+img,
+picture,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-accent-hover);
+}
+
+a:focus-visible {
+  outline: var(--border-medium) solid var(--color-blue-light);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+button {
+  cursor: pointer;
+  font: inherit;
+  border: none;
+  background: none;
+}
+
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+::selection {
+  background-color: var(--color-blue);
+  color: var(--color-cream);
+}
+
+/* ----------------------------------------
+   3. Typography
+   ---------------------------------------- */
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  line-height: 1.15;
+  font-weight: 400; /* Bagel Fat One only has 400 */
+  text-wrap: balance;
+  letter-spacing: var(--display-letter-spacing);
+  color: var(--color-blue);
+}
+
+h1 { font-size: var(--text-4xl); }
+h2 { font-size: var(--text-3xl); }
+h3 { font-size: var(--text-2xl); }
+h4 { font-size: var(--text-xl); }
+
+@media (min-width: 768px) {
+  h1 { font-size: var(--text-5xl); }
+  h2 { font-size: var(--text-4xl); }
+}
+
+p {
+  max-width: 65ch;
+  line-height: 1.7;
+}
+
+strong {
+  font-weight: 700;
+  color: var(--color-navy);
+}
+
+/* ----------------------------------------
+   4. Layout & Utilities
+   ---------------------------------------- */
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-lg);
+}
+
+.container--narrow {
+  max-width: var(--content-width);
+}
+
+main {
+  flex: 1;
+  padding-block: var(--space-2xl);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ----------------------------------------
+   5. Buttons
+   ---------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  line-height: 1;
+  border-radius: var(--radius-lg);
+  border: var(--border-medium) solid transparent;
+  cursor: pointer;
+  transition:
+    transform var(--transition-spring),
+    box-shadow var(--transition-spring),
+    background-color var(--transition-fast),
+    color var(--transition-fast),
+    border-color var(--transition-fast);
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.btn--sm {
+  min-height: 2.875rem;
+  padding: 0.6em 1.2em;
+  font-size: var(--text-xs);
+}
+
+.btn--md {
+  min-height: 3.25rem;
+  padding: 0.7em 1.6em;
+}
+
+.btn--lg {
+  min-height: 3.625rem;
+  padding: 0.85em 1.9em;
+  font-size: var(--text-base);
+}
+
+.btn--with-icon {
+  gap: 0.7em;
+}
+
+.btn__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.btn__icon :where(svg, img) {
+  display: block;
+  width: 1em;
+  height: 1em;
+}
+
+.btn:focus-visible {
+  outline: var(--border-medium) solid var(--color-blue-light);
+  outline-offset: 3px;
+}
+
+.btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: none !important;
+}
+
+/* -- Primary (filled blue) -- */
+.btn--primary {
+  background-color: var(--color-blue-light);
+  color: #fff;
+  border-color: var(--color-navy);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn--primary:hover {
+  background-color: var(--color-blue);
+  color: #fff;
+}
+
+/* -- Secondary (outlined blue) -- */
+.btn--secondary {
+  background-color: var(--color-surface);
+  color: var(--color-navy);
+  border-color: var(--color-navy);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn--secondary:hover {
+  background-color: var(--color-lavender);
+  color: var(--color-navy);
+}
+
+/* -- Success (filled green) -- */
+.btn--success {
+  background-color: var(--color-green);
+  color: var(--color-navy);
+  border-color: var(--color-navy);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn--success:hover {
+  background-color: #24a357;
+}
+
+/* -- Danger (filled red) -- */
+.btn--danger {
+  background-color: var(--color-red);
+  color: #fff;
+  border-color: var(--color-navy);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn--danger:hover {
+  background-color: #e03a3a;
+}
+
+/* -- Ghost (outlined, no fill) -- */
+.btn--ghost {
+  background-color: transparent;
+  color: var(--color-navy);
+  border-color: var(--color-navy);
+}
+
+.btn--ghost:hover {
+  background-color: var(--color-navy);
+  color: var(--color-cream);
+}
+
+/* -- Disabled -- */
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  background-color: var(--color-lavender);
+  color: var(--color-text-muted);
+  border-color: var(--color-lavender);
+  box-shadow: none;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ----------------------------------------
+   6. Cards
+   ---------------------------------------- */
+
+.card {
+  background-color: var(--color-surface);
+  border: var(--border-thick) solid var(--color-blue);
+  border-radius: var(--radius-xl);
+  padding: var(--space-xl);
+  transition:
+    transform var(--transition-spring),
+    box-shadow var(--transition-spring);
+}
+
+.card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Variant: dashed red border (as shown in the style guide) */
+.card--accent {
+  border-style: dashed;
+  border-color: var(--color-red);
+}
+
+.card--accent:hover {
+  box-shadow: var(--shadow-color-red);
+}
+
+/* Compact card variant */
+.card--compact {
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+}
+
+.card__title {
+  font-size: var(--text-2xl);
+  margin-block-end: var(--space-md);
+}
+
+.card__body {
+  color: var(--color-text-muted);
+  line-height: 1.7;
+}
+
+.card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin-block-start: var(--space-lg);
+}
+
+/* ----------------------------------------
+   7. Tags / Badges
+   ---------------------------------------- */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3em 0.9em;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  border: var(--border-thin) solid var(--color-navy);
+  background-color: var(--color-surface);
+  color: var(--color-navy);
+}
+
+.tag--design {
+  background-color: var(--color-red);
+  color: #fff;
+  border-color: var(--color-red);
+}
+
+.tag--development {
+  background-color: var(--color-blue);
+  color: #fff;
+  border-color: var(--color-blue);
+}
+
+.tag--green {
+  background-color: var(--color-green);
+  color: #fff;
+  border-color: var(--color-green);
+}
+
+/* ----------------------------------------
+   8. Forms
+   ---------------------------------------- */
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.form-label {
+  font-weight: 600;
+  font-size: var(--text-sm);
+  color: var(--color-navy);
+}
+
+.form-input,
+.form-textarea {
+  padding: 0.75em 1em;
+  border: var(--border-medium) solid var(--color-navy);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--text-base);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--color-blue);
+  box-shadow: 0 0 0 3px rgba(31, 69, 204, 0.2);
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: var(--color-text-muted);
+  opacity: 0.6;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 8rem;
+}
+
+/* ----------------------------------------
+   9. Section Helpers
+   ---------------------------------------- */
+
+.section {
+  padding-block: var(--space-3xl);
+}
+
+.section__header {
+  margin-block-end: var(--space-2xl);
+}
+
+.section__title {
+  font-size: var(--text-3xl);
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding-block: var(--space-4xl);
+  }
+
+  .section__title {
+    font-size: var(--text-4xl);
+  }
+}
+
+/* ----------------------------------------
+   10. Projects Grid
+   ---------------------------------------- */
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-xl);
+}
+
+@media (min-width: 640px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .projects-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ----------------------------------------
+   11. Display Text (decorative headings)
+   ---------------------------------------- */
+
+.display-text {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: var(--display-letter-spacing);
+  color: var(--color-blue);
+}
+
+/* Outlined text effect (stroke only, as shown in style guide) */
+.display-text--outline {
+  color: var(--color-blue);
+}
+
+/* Shadow text effect (retro pop shadow) */
+.display-text--shadow {
+  text-shadow:
+    3px 3px 0 var(--color-red),
+    -1px -1px 0 var(--color-cream);
+}
+
+/* ----------------------------------------
+   12. Scrollbar (subtle theming)
+   ---------------------------------------- */
+
+@supports (scrollbar-color: auto) {
+  * {
+    scrollbar-color: var(--color-lavender) transparent;
+    scrollbar-width: thin;
+  }
+}

@@ -1,0 +1,83 @@
+---
+import Button from "./Button.astro";
+
+interface Props {
+  lang?: "en" | "es";
+}
+
+const { lang = "en" } = Astro.props;
+
+const copy = {
+  en: {
+    title: "Button styles",
+    description:
+      "A quick preview of the portfolio button system and its main states.",
+    primary: "Primary",
+    secondary: "Secondary",
+    success: "Success",
+    error: "Error",
+    disabled: "Disabled",
+  },
+  es: {
+    title: "Estilos de botones",
+    description:
+      "Una vista rápida del sistema de botones del portfolio y sus estados principales.",
+    primary: "Primary",
+    secondary: "Secondary",
+    success: "Success",
+    error: "Error",
+    disabled: "Disabled",
+  },
+}[lang];
+---
+
+<section
+  class="container button-showcase"
+  aria-labelledby="button-showcase-title"
+>
+  <div class="button-showcase__header">
+    <h2 id="button-showcase-title">{copy.title}</h2>
+    <p>{copy.description}</p>
+  </div>
+
+  <div class="button-showcase__grid">
+    <Button variant="primary" size="md">{copy.primary}</Button>
+    <Button variant="secondary" size="md">{copy.secondary}</Button>
+    <Button variant="success" size="md">{copy.success}</Button>
+    <Button variant="error" size="md">{copy.error}</Button>
+    <Button variant="disabled" size="md">{copy.disabled}</Button>
+  </div>
+</section>
+
+<style>
+  .button-showcase {
+    padding-block: var(--space-2xl);
+  }
+
+  .button-showcase__header {
+    max-width: 42rem;
+    margin-bottom: var(--space-xl);
+  }
+
+  .button-showcase__header p {
+    color: var(--color-text-muted);
+    margin-top: var(--space-sm);
+  }
+
+  .button-showcase__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, max-content));
+    gap: var(--space-lg);
+    align-items: start;
+  }
+
+  @media (max-width: 640px) {
+    .button-showcase__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .button-showcase :global(.btn) {
+      width: 100%;
+    }
+  }
+</style>
