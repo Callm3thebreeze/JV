@@ -1,6 +1,6 @@
 ---
 import { getLangFromUrl, useTranslations } from "../i18n/utils";
-import Button from "./Button.astro";
+import FilterPills from "./FilterPills.astro";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -13,71 +13,55 @@ const filters = [
 ---
 
 <div class="tag-filter" role="group" aria-label="Filter projects">
-  {
-    filters.map((filter) => (
-      <Button
-        variant="secondary"
-        size="sm"
-        class:list={["filter-btn", { active: filter.key === "all" }]}
-        data-filter={filter.key}
-        type="button"
-      >
-        {filter.label}
-      </Button>
-    ))
-  }
+  <FilterPills
+    items={filters.map((filter) => ({
+      value: filter.key,
+      label: filter.label,
+    }))}
+    defaultValue="all"
+    variant="warning"
+    size="sm"
+    ariaLabel="Filter projects"
+    class="tag-filter__pills"
+  />
 </div>
 
 <script>
-  document.addEventListener("astro:page-load", () => {
-    const buttons = document.querySelectorAll<HTMLButtonElement>(".filter-btn");
+  const setupTagFilter = () => {
+    const groups = document.querySelectorAll<HTMLElement>(".tag-filter__pills");
     const cards = document.querySelectorAll<HTMLElement>(".project-card");
 
-    buttons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const filter = btn.dataset.filter;
+    groups.forEach((group) => {
+      if (group.dataset.tagFilterInitialized === "true") return;
 
-        // Update active state
-        buttons.forEach((b) => b.classList.remove("active"));
-        btn.classList.add("active");
+      group.addEventListener("filterpillschange", (event) => {
+        const detail = (event as CustomEvent<{ values: string[] }>).detail;
+        const activeFilter = detail?.values?.[0] ?? "all";
 
-        // Filter cards
         cards.forEach((card) => {
           const tags = card.dataset.tags?.split(",") ?? [];
-          if (filter === "all" || tags.includes(filter!)) {
+          if (activeFilter === "all" || tags.includes(activeFilter)) {
             card.style.display = "";
           } else {
             card.style.display = "none";
           }
         });
       });
+
+      group.dataset.tagFilterInitialized = "true";
     });
-  });
+  };
+
+  setupTagFilter();
+  document.addEventListener("astro:page-load", setupTagFilter);
 </script>
 
 <style>
   .tag-filter {
-    display: flex;
-    gap: var(--space-sm);
     margin-bottom: var(--space-xl);
-    flex-wrap: wrap;
   }
 
-  .filter-btn {
-    box-shadow: none;
-    font-weight: 900;
-    color: var(--color-text-muted);
-    transition: all var(--transition-fast);
-  }
-
-  .filter-btn:hover {
-    border-color: var(--color-accent);
-    color: var(--color-accent);
-  }
-
-  .filter-btn.active {
-    background-color: var(--color-accent);
-    border-color: var(--color-accent);
-    color: white;
+  .tag-filter :global(.filter-pills) {
+    gap: var(--space-sm);
   }
 </style>

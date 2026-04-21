@@ -1,0 +1,259 @@
+---
+interface FilterPillItem {
+  value: string;
+  label: string;
+}
+
+interface Props {
+  items: FilterPillItem[];
+  defaultValue?: string | string[];
+  multiple?: boolean;
+  variant?: "neutral" | "primary" | "error" | "success" | "warning";
+  size?: "sm" | "md";
+  name?: string;
+  ariaLabel?: string;
+  class?: string;
+}
+
+const {
+  items = [],
+  defaultValue,
+  multiple = false,
+  variant = "primary",
+  size = "sm",
+  name,
+  ariaLabel = "Filter options",
+  class: className = "",
+} = Astro.props;
+
+const selectedValues = new Set(
+  Array.isArray(defaultValue)
+    ? defaultValue
+    : typeof defaultValue === "string"
+      ? [defaultValue]
+      : [],
+);
+
+const variantClassMap = {
+  neutral: "filter-pills--neutral",
+  primary: "filter-pills--primary",
+  error: "filter-pills--error",
+  success: "filter-pills--success",
+  warning: "filter-pills--warning",
+} as const;
+
+const sizeClassMap = {
+  sm: "filter-pills--sm",
+  md: "filter-pills--md",
+} as const;
+---
+
+<div
+  class:list={[
+    "filter-pills",
+    variantClassMap[variant],
+    sizeClassMap[size],
+    className,
+  ]}
+  data-filter-pills
+  data-multiple={multiple ? "true" : "false"}
+  data-name={name ?? ""}
+  role="group"
+  aria-label={ariaLabel}
+>
+  {
+    items.map((item) => {
+      const isActive = selectedValues.has(item.value);
+
+      return (
+        <button
+          type="button"
+          class:list={["filter-pill", { "is-active": isActive }]}
+          data-filter-pill
+          data-value={item.value}
+          aria-pressed={isActive ? "true" : "false"}
+        >
+          {item.label}
+        </button>
+      );
+    })
+  }
+
+  <div class="filter-pills__inputs" data-filter-pills-inputs hidden>
+    {
+      name &&
+        Array.from(selectedValues).map((value) => (
+          <input type="hidden" name={name} value={value} />
+        ))
+    }
+  </div>
+</div>
+
+<style>
+  .filter-pills {
+    --filter-pill-active-bg: var(--color-periwinkle);
+    --filter-pill-active-text: var(--color-navy);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    align-items: center;
+  }
+
+  .filter-pills--neutral {
+    --filter-pill-active-bg: var(--color-cream);
+    --filter-pill-active-text: var(--color-navy);
+  }
+
+  .filter-pills--primary {
+    --filter-pill-active-bg: var(--color-periwinkle);
+    --filter-pill-active-text: var(--color-navy);
+  }
+
+  .filter-pills--error {
+    --filter-pill-active-bg: var(--color-red);
+    --filter-pill-active-text: var(--color-red-dark);
+  }
+
+  .filter-pills--success {
+    --filter-pill-active-bg: var(--color-green);
+    --filter-pill-active-text: var(--color-green-dark);
+  }
+
+  .filter-pills--warning {
+    --filter-pill-active-bg: var(--color-orange);
+    --filter-pill-active-text: var(--color-brown);
+  }
+
+  .filter-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.375rem;
+    padding: 0.42rem 1rem;
+    border: var(--border-medium) solid var(--color-navy);
+    border-radius: var(--radius-full);
+    background-color: var(--color-bg);
+    color: var(--color-navy);
+    box-shadow: var(--shadow-sm);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      transform var(--transition-spring),
+      box-shadow var(--transition-spring),
+      background-color var(--transition-fast),
+      color var(--transition-fast),
+      border-color var(--transition-fast);
+  }
+
+  .filter-pills--md .filter-pill {
+    min-height: 2.75rem;
+    padding: 0.55rem 1.2rem;
+    font-size: var(--text-base);
+  }
+
+  .filter-pill:hover {
+    background-color: color-mix(in srgb, var(--color-periwinkle) 30%, white);
+  }
+
+  .filter-pill.is-active,
+  .filter-pill[aria-pressed="true"] {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+    background-color: var(--color-blue-light);
+    color: #ffff;
+  }
+
+  .filter-pill:focus-visible {
+    outline: var(--border-medium) solid var(--color-blue-light);
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 640px) {
+    .filter-pills {
+      gap: var(--space-xs);
+    }
+  }
+</style>
+
+<script>
+  const setupFilterPills = () => {
+    const groups = document.querySelectorAll("[data-filter-pills]");
+
+    groups.forEach((group) => {
+      if (!(group instanceof HTMLElement)) return;
+      if (group.dataset.initialized === "true") return;
+
+      const buttons = Array.from(
+        group.querySelectorAll("[data-filter-pill]"),
+      ).filter((button) => button instanceof HTMLButtonElement);
+
+      const inputsContainer = group.querySelector("[data-filter-pills-inputs]");
+      const multiple = group.dataset.multiple === "true";
+      const name = group.dataset.name ?? "";
+
+      const syncHiddenInputs = () => {
+        if (!(inputsContainer instanceof HTMLElement) || !name) return;
+
+        const activeValues = buttons
+          .filter((button) => button.getAttribute("aria-pressed") === "true")
+          .map((button) => button.dataset.value)
+          .filter(Boolean);
+
+        inputsContainer.innerHTML = activeValues
+          .map(
+            (value) =>
+              `<input type="hidden" name="${name}" value="${value}" />`,
+          )
+          .join("");
+      };
+
+      buttons.forEach((button) => {
+        if (!(button instanceof HTMLButtonElement)) return;
+
+        button.addEventListener("click", () => {
+          const isActive = button.getAttribute("aria-pressed") === "true";
+
+          if (multiple) {
+            button.setAttribute("aria-pressed", String(!isActive));
+            button.classList.toggle("is-active", !isActive);
+          } else {
+            buttons.forEach((item) => {
+              item.setAttribute("aria-pressed", "false");
+              item.classList.remove("is-active");
+            });
+
+            button.setAttribute("aria-pressed", "true");
+            button.classList.add("is-active");
+          }
+
+          syncHiddenInputs();
+
+          const values = buttons
+            .filter((item) => item.getAttribute("aria-pressed") === "true")
+            .map((item) => item.dataset.value)
+            .filter(Boolean);
+
+          group.dispatchEvent(
+            new CustomEvent("filterpillschange", {
+              bubbles: true,
+              detail: {
+                values,
+              },
+            }),
+          );
+        });
+      });
+
+      syncHiddenInputs();
+      group.dataset.initialized = "true";
+    });
+  };
+
+  setupFilterPills();
+  document.addEventListener("astro:page-load", setupFilterPills);
+</script>
