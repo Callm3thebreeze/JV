@@ -86,6 +86,8 @@ const tagVariantMap = {
   .project-card {
     display: block;
     color: var(--color-text);
+    text-decoration: none;
+    font-weight: inherit;
     transition:
       transform var(--transition-base),
       color var(--transition-base);
@@ -94,6 +96,13 @@ const tagVariantMap = {
   .project-card:hover {
     transform: translateY(-2px);
     color: var(--color-text);
+    text-decoration: none;
+    font-weight: inherit;
+  }
+
+  .project-card:focus-visible {
+    text-decoration: none;
+    font-weight: inherit;
   }
 
   .project-card__frame {
@@ -121,6 +130,7 @@ const tagVariantMap = {
     line-height: 0.95;
     letter-spacing: -0.05em;
     color: var(--color-navy);
+    text-decoration: none;
   }
 
   .card-description {

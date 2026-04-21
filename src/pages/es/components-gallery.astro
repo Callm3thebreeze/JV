@@ -1,0 +1,16 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ComponentsGalleryPage from "../../components/ComponentsGalleryPage.astro";
+import { useTranslations } from "../../i18n/utils";
+
+const lang = "es";
+const t = useTranslations(lang);
+---
+
+<BaseLayout
+  title={`Galeria de Componentes | ${t("home.title")}`}
+  description="Biblioteca de componentes con todas las variantes usadas en el sitio."
+  canonicalPath="/es/components-galery/"
+>
+  <ComponentsGalleryPage lang="es" />
+</BaseLayout>

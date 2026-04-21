@@ -1,0 +1,527 @@
+---
+import type { Lang } from "../i18n/ui";
+import { getProjectsByLocale, useTranslations } from "../i18n/utils";
+import Hero from "./Hero.astro";
+import Button from "./Button.astro";
+import Card from "./Card.astro";
+import Pill from "./Pill.astro";
+import FilterPills from "./FilterPills.astro";
+import ContactForm from "./ContactForm.astro";
+import LanguageSwitcher from "./LanguageSwitcher.astro";
+import ProjectCard from "./ProjectCard.astro";
+import TagFilter from "./TagFilter.astro";
+import altLogo from "../assets/alt-logo.png";
+import CasioButtonsShowcase from "./CasioButtonsShowcase.astro";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const projects = await getProjectsByLocale(lang);
+const galleryProjects = projects.slice(0, 6);
+
+const copy =
+  lang === "es"
+    ? {
+        kicker: "Biblioteca UI",
+        title: "Galeria de Componentes",
+        subtitle:
+          "Una vista de todos los componentes del sitio y sus variantes disponibles.",
+        layoutTitle: "Componentes de Layout",
+        layoutDescription:
+          "Header y Footer ya se renderizan en esta pagina a traves del layout base. Aqui tienes notas y previews auxiliares.",
+        languageSwitcherDescription:
+          "Componente de cambio de idioma (EN / ES).",
+        heroDescription: "Preview del componente Hero principal.",
+        buttonDescription: "Variantes, tamanos, iconos y estado deshabilitado.",
+        cardDescription:
+          "Variantes de color, modo compacto, divisores y slots de media/actions.",
+        pillDescription:
+          "Todas las variantes de color y tamanos, incluido uso como enlace.",
+        filterDescription:
+          "Modo single y multiple con todas las variantes visuales.",
+        casioDescription:
+          "Variantes de color y distintas configuraciones de botones por lado.",
+        projectsDescription:
+          "TagFilter + ProjectCard funcionando sobre proyectos reales de contenido.",
+        contactDescription:
+          "Version por defecto del formulario de contacto reutilizable.",
+        noProjects:
+          "No hay proyectos disponibles para mostrar en esta galeria.",
+      }
+    : {
+        kicker: "UI Library",
+        title: "Components Gallery",
+        subtitle:
+          "A complete view of the site components and every available variant.",
+        layoutTitle: "Layout Components",
+        layoutDescription:
+          "Header and Footer are already rendered on this page by the base layout. Here you can find helper notes and previews.",
+        languageSwitcherDescription: "Language switcher component (EN / ES).",
+        heroDescription: "Preview of the main Hero component.",
+        buttonDescription: "Variants, sizes, icons and disabled state.",
+        cardDescription:
+          "Color variants, compact mode, dividers, and media/actions slots.",
+        pillDescription: "All color variants and sizes, including link mode.",
+        filterDescription: "Single and multiple mode with all visual variants.",
+        casioDescription:
+          "Color variants and different left/right button count configurations.",
+        contactDescription: "Default version of the reusable contact form.",
+        noProjects:
+          "There are no projects available to display in this gallery.",
+      };
+
+const filterItems = [
+  { value: "all", label: t("projects.filter.all") },
+  { value: "design", label: t("projects.filter.design") },
+  { value: "development", label: t("projects.filter.development") },
+];
+---
+
+<section class="container components-gallery-intro">
+  <p class="components-gallery-intro__kicker">{copy.kicker}</p>
+  <h1>{copy.title}</h1>
+  <p>{copy.subtitle}</p>
+</section>
+
+<section
+  class="container components-gallery-section"
+  aria-labelledby="layout-components-title"
+>
+  <div class="components-gallery-section__head">
+    <h2 id="layout-components-title">{copy.layoutTitle}</h2>
+    <p>{copy.layoutDescription}</p>
+  </div>
+
+  <div class="components-gallery-grid components-gallery-grid--3">
+    <article class="components-gallery-card">
+      <h3>Header</h3>
+      <p>Rendered globally at the top of this page.</p>
+    </article>
+
+    <article class="components-gallery-card">
+      <h3>Footer</h3>
+      <p>Rendered globally at the bottom of this page.</p>
+    </article>
+
+    <article class="components-gallery-card">
+      <h3>LanguageSwitcher</h3>
+      <p>{copy.languageSwitcherDescription}</p>
+      <div class="components-gallery-lang-wrap">
+        <LanguageSwitcher />
+      </div>
+    </article>
+  </div>
+</section>
+
+<section
+  class="components-gallery-section components-gallery-section--hero"
+  aria-labelledby="hero-component-title"
+>
+  <div class="container components-gallery-section__head">
+    <h2 id="hero-component-title">Hero</h2>
+    <p>{copy.heroDescription}</p>
+  </div>
+  <Hero />
+</section>
+
+<section
+  class="container components-gallery-section"
+  aria-labelledby="button-components-title"
+>
+  <div class="components-gallery-section__head">
+    <h2 id="button-components-title">Button</h2>
+    <p>{copy.buttonDescription}</p>
+  </div>
+
+  <div class="components-gallery-stack">
+    <div class="components-gallery-row">
+      <span class="components-gallery-label">SM</span>
+      <Button variant="primary" size="sm">Primary</Button>
+      <Button variant="secondary" size="sm">Secondary</Button>
+      <Button variant="success" size="sm">Success</Button>
+      <Button variant="error" size="sm">Error</Button>
+    </div>
+
+    <div class="components-gallery-row">
+      <span class="components-gallery-label">MD</span>
+      <Button variant="primary" size="md">Primary</Button>
+      <Button variant="secondary" size="md">Secondary</Button>
+      <Button variant="success" size="md">Success</Button>
+      <Button variant="error" size="md">Error</Button>
+      <Button variant="disabled" size="md">Disabled</Button>
+    </div>
+
+    <div class="components-gallery-row">
+      <span class="components-gallery-label">LG + icons</span>
+      <Button variant="primary" size="lg" iconPosition="left">
+        With left icon
+        <svg
+          slot="icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M12 2v20"></path>
+          <path d="M2 12h20"></path>
+        </svg>
+      </Button>
+      <Button variant="secondary" size="lg" iconPosition="right">
+        With right icon
+        <svg
+          slot="icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M5 12h14"></path>
+          <path d="m12 5 7 7-7 7"></path>
+        </svg>
+      </Button>
+    </div>
+  </div>
+</section>
+
+<section
+  class="container components-gallery-section"
+  aria-labelledby="card-components-title"
+>
+  <div class="components-gallery-section__head">
+    <h2 id="card-components-title">Card</h2>
+    <p>{copy.cardDescription}</p>
+  </div>
+
+  <div class="components-gallery-grid components-gallery-grid--2">
+    <Card
+      title="Blue variant"
+      description="Default card with fallback media (alt-logo) and standard spacing."
+      variant="blue"
+      useDefaultMedia
+    />
+
+    <Card
+      title="Red variant"
+      description="Card with divider title style and fallback media."
+      variant="red"
+      withDivider
+      useDefaultMedia
+    />
+
+    <Card
+      variant="green"
+      compact
+      description="Compact mode with custom title slot and action slot."
+    >
+      <span slot="title">Green compact card</span>
+      <div slot="actions">
+        <Button variant="primary" size="sm">Action 1</Button>
+        <Button variant="secondary" size="sm">Action 2</Button>
+      </div>
+    </Card>
+
+    <Card
+      variant="blue"
+      title="Media slot card"
+      description="Card using a custom media slot image."
+    >
+      <img
+        slot="media"
+        src={altLogo.src}
+        width={altLogo.width}
+        height={altLogo.height}
+        alt="Main logo"
+        loading="lazy"
+      />
+    </Card>
+  </div>
+</section>
+
+<section
+  class="container components-gallery-section"
+  aria-labelledby="pill-components-title"
+>
+  <div class="components-gallery-section__head">
+    <h2 id="pill-components-title">Pill</h2>
+    <p>{copy.pillDescription}</p>
+  </div>
+
+  <div class="components-gallery-stack">
+    <div class="components-gallery-row">
+      <span class="components-gallery-label">SM</span>
+      <Pill variant="primary" size="sm">Primary</Pill>
+      <Pill variant="error" size="sm">Error</Pill>
+      <Pill variant="success" size="sm">Success</Pill>
+      <Pill variant="warning" size="sm">Warning</Pill>
+    </div>
+
+    <div class="components-gallery-row">
+      <span class="components-gallery-label">MD</span>
+      <Pill variant="primary" size="md">Primary</Pill>
+      <Pill variant="error" size="md">Error</Pill>
+      <Pill variant="success" size="md">Success</Pill>
+      <Pill variant="warning" size="md">Warning</Pill>
+    </div>
+
+    <div class="components-gallery-row">
+      <span class="components-gallery-label">LG + link</span>
+      <Pill variant="primary" size="lg">Primary</Pill>
+      <Pill variant="error" size="lg">Error</Pill>
+      <Pill variant="success" size="lg">Success</Pill>
+      <Pill variant="warning" size="lg">Warning</Pill>
+    </div>
+  </div>
+</section>
+
+<section
+  class="container components-gallery-section"
+  aria-labelledby="filterpills-components-title"
+>
+  <div class="components-gallery-section__head">
+    <h2 id="filterpills-components-title">FilterPills</h2>
+    <p>{copy.filterDescription}</p>
+  </div>
+
+  <div class="components-gallery-stack">
+    <div class="components-gallery-row">
+      <span class="components-gallery-label">neutral + single</span>
+      <FilterPills
+        items={filterItems}
+        defaultValue="all"
+        variant="neutral"
+        size="sm"
+        ariaLabel="neutral single"
+      />
+    </div>
+
+    <div class="components-gallery-row">
+      <span class="components-gallery-label">primary + single</span>
+      <FilterPills
+        items={filterItems}
+        defaultValue="design"
+        variant="primary"
+        size="md"
+        ariaLabel="primary single"
+      />
+    </div>
+
+    <div class="components-gallery-row">
+      <span class="components-gallery-label">error/success/warning</span>
+      <FilterPills
+        items={filterItems}
+        defaultValue="development"
+        variant="error"
+        size="sm"
+        ariaLabel="error single"
+      />
+      <FilterPills
+        items={filterItems}
+        defaultValue="design"
+        variant="success"
+        size="sm"
+        ariaLabel="success single"
+      />
+      <FilterPills
+        items={filterItems}
+        defaultValue="all"
+        variant="warning"
+        size="sm"
+        ariaLabel="warning single"
+      />
+    </div>
+
+    <div class="components-gallery-row">
+      <span class="components-gallery-label">primary + multiple</span>
+      <FilterPills
+        items={filterItems}
+        defaultValue={["design", "development"]}
+        variant="primary"
+        size="md"
+        multiple
+        ariaLabel="primary multiple"
+      />
+    </div>
+  </div>
+</section>
+
+<CasioButtonsShowcase lang={lang} />
+
+<section
+  class="container components-gallery-section"
+  aria-labelledby="tagfilter-projectcard-title"
+>
+  <div class="components-gallery-section__head">
+    <h2 id="tagfilter-projectcard-title">TagFilter + ProjectCard</h2>
+    <p>{copy.projectsDescription}</p>
+  </div>
+
+  {
+    galleryProjects.length > 0 ? (
+      <>
+        <TagFilter />
+        <div class="projects-grid components-gallery-projects-grid">
+          {galleryProjects.map((project) => (
+            <ProjectCard project={project} />
+          ))}
+        </div>
+      </>
+    ) : (
+      <p>{copy.noProjects}</p>
+    )
+  }
+</section>
+
+<section
+  class="container components-gallery-section"
+  aria-labelledby="contactform-title"
+>
+  <div class="components-gallery-section__head">
+    <h2 id="contactform-title">ContactForm</h2>
+    <p>{copy.contactDescription}</p>
+  </div>
+
+  <ContactForm />
+</section>
+
+<style>
+  .components-gallery-intro {
+    padding-block: var(--space-2xl) var(--space-xl);
+    color: var(--color-text);
+  }
+
+  .components-gallery-intro__kicker {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: var(--space-sm);
+  }
+
+  .components-gallery-intro p {
+    margin-top: var(--space-md);
+    max-width: 70ch;
+  }
+
+  .components-gallery-section {
+    padding-block: var(--space-2xl);
+    color: var(--color-text);
+    border-top: var(--border-thin) dashed
+      color-mix(in srgb, var(--color-navy) 35%, transparent);
+  }
+
+  .components-gallery-section--hero {
+    border-top: none;
+    padding-top: var(--space-lg);
+  }
+
+  .components-gallery-section__head {
+    margin-bottom: var(--space-xl);
+    max-width: 72ch;
+  }
+
+  .components-gallery-section__head p {
+    margin-top: var(--space-sm);
+    color: var(--color-text);
+  }
+
+  .components-gallery-grid {
+    display: grid;
+    gap: var(--space-lg);
+    align-items: start;
+  }
+
+  .components-gallery-grid--2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .components-gallery-grid--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .components-gallery-card {
+    background: color-mix(in srgb, var(--color-bg) 92%, white);
+    border: var(--border-medium) solid var(--color-navy);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: var(--space-lg);
+  }
+
+  .components-gallery-card h3 {
+    margin-bottom: var(--space-sm);
+  }
+
+  .components-gallery-lang-wrap {
+    margin-top: var(--space-md);
+    display: inline-flex;
+    padding: var(--space-sm);
+    border: var(--border-thin) solid var(--color-navy);
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface);
+  }
+
+  .components-gallery-stack {
+    display: grid;
+    gap: var(--space-lg);
+  }
+
+  .components-gallery-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    align-items: center;
+  }
+
+  .components-gallery-label {
+    min-width: 8rem;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text);
+  }
+
+  .components-gallery-casio-stack {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  .components-gallery-casio-stack :global(.casio-buttons) {
+    max-width: 100%;
+  }
+
+  .components-gallery-projects-grid {
+    margin-top: var(--space-lg);
+  }
+
+  @media (max-width: 960px) {
+    .components-gallery-grid--2,
+    .components-gallery-grid--3 {
+      grid-template-columns: 1fr;
+    }
+
+    .components-gallery-label {
+      min-width: auto;
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .components-gallery-row {
+      gap: var(--space-xs);
+    }
+
+    .components-gallery-row :global(.btn),
+    .components-gallery-row :global(.pill),
+    .components-gallery-row :global(.filter-pills) {
+      width: 100%;
+    }
+  }
+</style>

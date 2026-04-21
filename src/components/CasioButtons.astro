@@ -17,6 +17,8 @@ const {
 
 const safeLeftCount = Math.max(0, Math.floor(Number(leftCount) || 0));
 const safeRightCount = Math.max(0, Math.floor(Number(rightCount) || 0));
+const hasLeftSide = safeLeftCount > 0;
+const hasRightSide = safeRightCount > 0;
 
 const leftButtons = Array.from(
   { length: safeLeftCount },
@@ -34,9 +36,17 @@ const colorClassMap = {
 } as const;
 ---
 
-<div class:list={["casio-buttons", colorClassMap[color], className]}>
+<div
+  class:list={[
+    "casio-buttons",
+    colorClassMap[color],
+    !hasLeftSide && hasRightSide ? "casio-buttons--single-right" : "",
+    hasLeftSide && !hasRightSide ? "casio-buttons--single-left" : "",
+    className,
+  ]}
+>
   {
-    safeLeftCount > 0 && (
+    hasLeftSide && (
       <div
         class="casio-buttons__side casio-buttons__side--left"
         aria-label="Left controls"
@@ -56,7 +66,7 @@ const colorClassMap = {
   }
 
   {
-    safeRightCount > 0 && (
+    hasRightSide && (
       <div
         class="casio-buttons__side casio-buttons__side--right"
         aria-label="Right controls"
@@ -97,6 +107,19 @@ const colorClassMap = {
 
   .casio-buttons--yellow {
     --casio-button-fill: var(--color-yellow);
+  }
+
+  .casio-buttons--single-left,
+  .casio-buttons--single-right {
+    grid-template-columns: minmax(0, max-content);
+  }
+
+  .casio-buttons--single-left {
+    justify-content: flex-start;
+  }
+
+  .casio-buttons--single-right {
+    justify-content: flex-end;
   }
 
   .casio-buttons__side {
