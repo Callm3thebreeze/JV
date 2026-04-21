@@ -632,3 +632,53 @@ main {
     scrollbar-width: thin;
   }
 }
+
+/* ----------------------------------------
+  12. View Transition Presets
+   ---------------------------------------- */
+
+::view-transition-old(root) {
+  animation-name: vt-old-cinematic;
+  animation-duration: 0.56s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
+}
+
+::view-transition-new(root) {
+  animation-name: vt-new-cinematic;
+  animation-duration: 0.56s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
+}
+
+@keyframes vt-old-cinematic {
+  from {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(-4%) scale(0.985);
+  }
+}
+
+@keyframes vt-new-cinematic {
+  from {
+    opacity: 0;
+    transform: translateX(6%) scale(0.99);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-name: none !important;
+  }
+}

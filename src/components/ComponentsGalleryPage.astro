@@ -238,7 +238,9 @@ const filterItems = [
         width={altLogo.width}
         height={altLogo.height}
         alt="Main logo"
-        loading="lazy"
+        loading="eager"
+        decoding="sync"
+        fetchpriority="high"
       />
     </Card>
   </div>
