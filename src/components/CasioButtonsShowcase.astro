@@ -1,0 +1,71 @@
+---
+import CasioButtons from "./CasioButtons.astro";
+
+interface Props {
+  lang?: "en" | "es";
+}
+
+const { lang = "en" } = Astro.props;
+
+const copy = {
+  en: {
+    title: "Casio button styles",
+    description:
+      "A preview of the calculator-inspired control rows with configurable side counts and color variants.",
+    label: "option",
+  },
+  es: {
+    title: "Estilos de botones Casio",
+    description:
+      "Una vista previa de las filas de controles inspiradas en calculadoras, con cantidad configurable por lado y variantes de color.",
+    label: "opción",
+  },
+}[lang];
+---
+
+<section
+  class="container casio-buttons-showcase"
+  aria-labelledby="casio-buttons-showcase-title"
+>
+  <div class="casio-buttons-showcase__header">
+    <h2 id="casio-buttons-showcase-title">{copy.title}</h2>
+    <p>{copy.description}</p>
+  </div>
+
+  <div class="casio-buttons-showcase__stack">
+    <CasioButtons
+      color="orange"
+      leftCount={3}
+      rightCount={3}
+      label={copy.label}
+    />
+    <CasioButtons color="red" leftCount={3} rightCount={3} label={copy.label} />
+    <CasioButtons
+      color="yellow"
+      leftCount={3}
+      rightCount={3}
+      label={copy.label}
+    />
+  </div>
+</section>
+
+<style>
+  .casio-buttons-showcase {
+    padding-block: var(--space-2xl);
+  }
+
+  .casio-buttons-showcase__header {
+    max-width: 48rem;
+    margin-bottom: var(--space-xl);
+  }
+
+  .casio-buttons-showcase__header p {
+    margin-top: var(--space-sm);
+    color: var(--color-text-muted);
+  }
+
+  .casio-buttons-showcase__stack {
+    display: grid;
+    gap: clamp(2rem, 4vw, 3.5rem);
+  }
+</style>

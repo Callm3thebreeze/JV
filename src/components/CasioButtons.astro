@@ -1,0 +1,180 @@
+---
+interface Props {
+  leftCount?: number;
+  rightCount?: number;
+  color?: "orange" | "red" | "yellow";
+  label?: string;
+  class?: string;
+}
+
+const {
+  leftCount = 3,
+  rightCount = 3,
+  color = "orange",
+  label = "option",
+  class: className = "",
+} = Astro.props;
+
+const safeLeftCount = Math.max(0, Math.floor(Number(leftCount) || 0));
+const safeRightCount = Math.max(0, Math.floor(Number(rightCount) || 0));
+
+const leftButtons = Array.from(
+  { length: safeLeftCount },
+  (_, index) => index + 1,
+);
+const rightButtons = Array.from(
+  { length: safeRightCount },
+  (_, index) => index + 1,
+);
+
+const colorClassMap = {
+  orange: "casio-buttons--orange",
+  red: "casio-buttons--red",
+  yellow: "casio-buttons--yellow",
+} as const;
+---
+
+<div class:list={["casio-buttons", colorClassMap[color], className]}>
+  {
+    safeLeftCount > 0 && (
+      <div
+        class="casio-buttons__side casio-buttons__side--left"
+        aria-label="Left controls"
+      >
+        {leftButtons.map((buttonNumber) => (
+          <div class="casio-buttons__row">
+            <span class="casio-buttons__label">{label}</span>
+            <button
+              type="button"
+              class="casio-buttons__button"
+              aria-label={`${label} ${buttonNumber}`}
+            />
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  {
+    safeRightCount > 0 && (
+      <div
+        class="casio-buttons__side casio-buttons__side--right"
+        aria-label="Right controls"
+      >
+        {rightButtons.map((buttonNumber) => (
+          <div class="casio-buttons__row">
+            <button
+              type="button"
+              class="casio-buttons__button"
+              aria-label={`${label} ${buttonNumber}`}
+            />
+            <span class="casio-buttons__label">{label}</span>
+          </div>
+        ))}
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .casio-buttons {
+    --casio-button-fill: var(--color-orange);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, max-content));
+    gap: clamp(1.5rem, 3vw, 3.5rem);
+    align-items: start;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .casio-buttons--orange {
+    --casio-button-fill: var(--color-orange);
+  }
+
+  .casio-buttons--red {
+    --casio-button-fill: var(--color-red);
+  }
+
+  .casio-buttons--yellow {
+    --casio-button-fill: var(--color-yellow);
+  }
+
+  .casio-buttons__side {
+    display: grid;
+    gap: clamp(0.9rem, 1.6vw, 1.35rem);
+  }
+
+  .casio-buttons__row {
+    display: inline-flex;
+    align-items: center;
+    gap: clamp(0.8rem, 1.8vw, 1.2rem);
+  }
+
+  .casio-buttons__side--right .casio-buttons__row {
+    justify-content: flex-end;
+  }
+
+  .casio-buttons__label {
+    color: var(--color-navy);
+    font-size: clamp(1.15rem, 0.98rem + 0.5vw, 1.65rem);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .casio-buttons__button {
+    width: clamp(8.5rem, 18vw, 10.8rem);
+    height: 1.5rem;
+    border: 3px solid var(--color-navy);
+    border-radius: 0.35rem;
+    background-color: var(--casio-button-fill);
+    box-shadow: var(--shadow-sm);
+    flex-shrink: 0;
+    cursor: pointer;
+    transition:
+      transform var(--transition-spring),
+      box-shadow var(--transition-spring),
+      background-color var(--transition-fast),
+      border-color var(--transition-fast);
+  }
+
+  .casio-buttons__button:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+  }
+
+  .casio-buttons__button:focus-visible {
+    outline: var(--border-medium) solid var(--color-blue-light);
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 720px) {
+    .casio-buttons {
+      grid-template-columns: 1fr;
+      justify-content: stretch;
+    }
+
+    .casio-buttons__side--right .casio-buttons__row {
+      justify-content: flex-start;
+    }
+
+    .casio-buttons__side--right .casio-buttons__row {
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .casio-buttons__row {
+      gap: var(--space-sm);
+    }
+
+    .casio-buttons__label {
+      font-size: var(--text-lg);
+    }
+
+    .casio-buttons__button {
+      width: min(100%, 9.2rem);
+    }
+  }
+</style>

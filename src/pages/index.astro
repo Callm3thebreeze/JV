@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
 import ButtonShowcase from "../components/ButtonShowcase.astro";
+import CasioButtonsShowcase from "../components/CasioButtonsShowcase.astro";
 import CardShowcase from "../components/CardShowcase.astro";
 import PillShowcase from "../components/PillShowcase.astro";
 import ProjectCard from "../components/ProjectCard.astro";
@@ -19,6 +20,7 @@ const featured = await getFeaturedProjects(lang);
 <BaseLayout title={t("home.title")} description={t("meta.description")}>
 	<Hero />
 	<ButtonShowcase lang="en" />
+	<CasioButtonsShowcase lang="en" />
 	<PillShowcase lang="en" />
 	<CardShowcase lang="en" />
 
