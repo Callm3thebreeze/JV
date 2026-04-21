@@ -17,6 +17,7 @@ const t = useTranslations(lang);
           height={mainLogo.height}
           alt="Jesús Villar"
           class="hero-logo"
+          data-main-logo
           loading="eager"
           decoding="sync"
           fetchpriority="high"
@@ -25,7 +26,7 @@ const t = useTranslations(lang);
 
       <div class="hero-copy">
         <h1 class="hero-headline">{t("home.hero.headline")}</h1>
-        <p class="hero-subline">{t("home.hero.subline")}</p>
+
         <div class="hero-cta">
           <Button
             href={lang === "en" ? "/projects/" : "/es/projects/"}
@@ -94,6 +95,11 @@ const t = useTranslations(lang);
   .hero-logo {
     width: min(100%, 32rem);
     height: auto;
+    transform-origin: 50% 100%;
+  }
+
+  .hero-logo.is-animating {
+    will-change: transform;
   }
 
   .hero-copy {
@@ -104,19 +110,11 @@ const t = useTranslations(lang);
   }
 
   .hero-headline {
-    font-size: 6rem;
+    font-size: clamp(3.2rem, 12vw, 5rem);
     max-width: 12ch;
-    margin-bottom: var(--space-lg);
-    text-align: center;
-    color: var(--color-red);
-  }
-
-  .hero-subline {
-    font-size: var(--text-lg);
-    color: var(--color-text-muted);
-    max-width: 50ch;
     margin-bottom: var(--space-xl);
     text-align: center;
+    color: var(--color-red);
   }
 
   .hero-cta {
@@ -141,8 +139,7 @@ const t = useTranslations(lang);
       padding-top: 0;
     }
 
-    .hero-headline,
-    .hero-subline {
+    .hero-headline {
       text-align: center;
       margin-inline: auto;
     }
@@ -161,4 +158,280 @@ const t = useTranslations(lang);
       font-size: clamp(3.2rem, 12vw, 6rem);
     }
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-logo {
+      transform: none !important;
+    }
+  }
 </style>
+
+<script>
+  import { createTimeline, type Timeline } from "animejs";
+
+  const HOME_PATHS = new Set(["/", "/es", "/es/"]);
+  const LAST_VARIANT_STORAGE_KEY = "jv-main-logo-last-variant";
+  const ROTATING_VARIANTS = [
+    "boomerangLanding",
+    "spiralLanding",
+    "arcadePop",
+  ] as const;
+
+  type LogoAnimationVariant =
+    | "boomerangLanding"
+    | "spiralLanding"
+    | "arcadePop";
+
+  const LOGO_VARIANTS = new Set<LogoAnimationVariant>(ROTATING_VARIANTS);
+
+  const windowState = window as Window & {
+    __jvMainLogoIntroBound?: boolean;
+    __jvMainLogoVariant?: LogoAnimationVariant;
+  };
+
+  let activeMainLogoTimeline: Timeline | undefined;
+
+  const parseLogoVariant = (
+    value: string | null | undefined,
+  ): LogoAnimationVariant | undefined => {
+    const maybeVariant = value as LogoAnimationVariant | undefined;
+
+    if (maybeVariant && LOGO_VARIANTS.has(maybeVariant)) {
+      return maybeVariant;
+    }
+
+    return undefined;
+  };
+
+  const pickDifferentVariantOnReload = (): LogoAnimationVariant => {
+    const lastVariant = (() => {
+      try {
+        return parseLogoVariant(
+          window.localStorage.getItem(LAST_VARIANT_STORAGE_KEY),
+        );
+      } catch {
+        return undefined;
+      }
+    })();
+
+    const candidates = lastVariant
+      ? ROTATING_VARIANTS.filter((variant) => variant !== lastVariant)
+      : [...ROTATING_VARIANTS];
+
+    const selected =
+      candidates[Math.floor(Math.random() * candidates.length)] ??
+      ROTATING_VARIANTS[0];
+
+    try {
+      window.localStorage.setItem(LAST_VARIANT_STORAGE_KEY, selected);
+    } catch {
+      // no-op: storage may be disabled by the browser
+    }
+
+    return selected;
+  };
+
+  const buildBoomerangLandingTimeline = (logo: HTMLElement): Timeline => {
+    const timeline = createTimeline({
+      autoplay: true,
+      onComplete: () => {
+        logo.classList.remove("is-animating");
+      },
+    });
+
+    timeline
+      .add(logo, {
+        x: ["-44vw", "3.8vw"],
+        y: ["-40vh", "-2vh"],
+        rotate: ["-22deg", "7deg"],
+        scaleX: [0.8, 1.04],
+        scaleY: [0.8, 1],
+        duration: 430,
+        ease: "outCubic",
+      })
+      .add(logo, {
+        x: ["3.8vw", "-1.8vw"],
+        y: ["-2vh", "0.8vh"],
+        rotate: ["7deg", "-3deg"],
+        scaleX: [1.04, 0.98],
+        scaleY: [1, 1.03],
+        duration: 190,
+        ease: "inOutSine",
+      })
+      .add(logo, {
+        x: ["-1.8vw", "0vw"],
+        y: ["0.8vh", "0vh"],
+        rotate: ["-3deg", "0deg"],
+        scaleX: [0.98, 1],
+        scaleY: [1.03, 1],
+        duration: 160,
+        ease: "outQuad",
+      })
+      .add(
+        logo,
+        {
+          y: ["0vh", "-0.65vh"],
+          duration: 85,
+          ease: "outSine",
+        },
+        "-=22",
+      )
+      .add(logo, {
+        y: ["-0.65vh", "0vh"],
+        duration: 85,
+        ease: "outQuad",
+      });
+
+    return timeline;
+  };
+
+  const buildSpiralLandingTimeline = (logo: HTMLElement): Timeline => {
+    const timeline = createTimeline({
+      autoplay: true,
+      onComplete: () => {
+        logo.classList.remove("is-animating");
+      },
+    });
+
+    timeline
+      .add(logo, {
+        x: ["-36vw", "-10vw"],
+        y: ["-38vh", "-12vh"],
+        rotate: ["-0.85turn", "-0.18turn"],
+        scaleX: [0.72, 0.92],
+        scaleY: [0.72, 0.92],
+        duration: 380,
+        ease: "outQuad",
+      })
+      .add(logo, {
+        x: ["-10vw", "2vw"],
+        y: ["-12vh", "1.6vh"],
+        rotate: ["-0.18turn", "0.06turn"],
+        scaleX: [0.92, 1.03],
+        scaleY: [0.92, 1.02],
+        duration: 240,
+        ease: "outCubic",
+      })
+      .add(logo, {
+        x: ["2vw", "0vw"],
+        y: ["1.6vh", "0vh"],
+        rotate: ["0.06turn", "0turn"],
+        scaleX: [1.03, 1],
+        scaleY: [1.02, 1],
+        duration: 140,
+        ease: "outQuad",
+      })
+      .add(
+        logo,
+        {
+          y: ["0vh", "-0.8vh"],
+          duration: 95,
+          ease: "outSine",
+        },
+        "-=20",
+      )
+      .add(logo, {
+        y: ["-0.8vh", "0vh"],
+        duration: 90,
+        ease: "outQuad",
+      });
+
+    return timeline;
+  };
+
+  const buildArcadePopTimeline = (logo: HTMLElement): Timeline => {
+    const timeline = createTimeline({
+      autoplay: true,
+      onComplete: () => {
+        logo.classList.remove("is-animating");
+      },
+    });
+
+    timeline
+      .add(logo, {
+        x: ["-38vw", "0vw"],
+        y: ["-42vh", "0.9vh"],
+        rotate: ["-14deg", "0deg"],
+        scaleX: [0.8, 1.05],
+        scaleY: [0.8, 0.94],
+        duration: 470,
+        ease: "outCubic",
+      })
+      .add(logo, {
+        y: ["0.9vh", "-1.8vh"],
+        scaleX: [1.05, 0.96],
+        scaleY: [0.94, 1.06],
+        duration: 140,
+        ease: "outSine",
+      })
+      .add(logo, {
+        y: ["-1.8vh", "0.45vh"],
+        scaleX: [0.96, 1.02],
+        scaleY: [1.06, 0.98],
+        duration: 115,
+        ease: "inOutSine",
+      })
+      .add(logo, {
+        y: ["0.45vh", "-0.65vh"],
+        scaleX: [1.02, 0.99],
+        scaleY: [0.98, 1.01],
+        duration: 95,
+        ease: "outSine",
+      })
+      .add(logo, {
+        y: ["-0.65vh", "0vh"],
+        scaleX: [0.99, 1],
+        scaleY: [1.01, 1],
+        duration: 95,
+        ease: "outQuad",
+      });
+
+    return timeline;
+  };
+
+  const runVariant = (
+    variant: LogoAnimationVariant,
+    logo: HTMLElement,
+  ): Timeline => {
+    if (variant === "boomerangLanding")
+      return buildBoomerangLandingTimeline(logo);
+    if (variant === "spiralLanding") return buildSpiralLandingTimeline(logo);
+
+    return buildArcadePopTimeline(logo);
+  };
+
+  const runMainLogoIntro = () => {
+    if (!HOME_PATHS.has(window.location.pathname)) return;
+
+    const logo = document.querySelector(".hero-logo[data-main-logo]");
+    if (!(logo instanceof HTMLElement)) return;
+
+    activeMainLogoTimeline?.cancel();
+    logo.classList.remove("is-animating");
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (prefersReducedMotion) return;
+
+    const variant =
+      windowState.__jvMainLogoVariant ?? pickDifferentVariantOnReload();
+    windowState.__jvMainLogoVariant = variant;
+    logo.classList.add("is-animating");
+
+    activeMainLogoTimeline = runVariant(variant, logo);
+  };
+
+  const scheduleMainLogoIntro = () => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(runMainLogoIntro);
+    });
+  };
+
+  if (!windowState.__jvMainLogoIntroBound) {
+    document.addEventListener("astro:page-load", scheduleMainLogoIntro);
+    windowState.__jvMainLogoIntroBound = true;
+  }
+
+  scheduleMainLogoIntro();
+</script>

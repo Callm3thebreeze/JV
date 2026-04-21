@@ -17,8 +17,6 @@ export const ui = {
     // Home
     'home.title': 'Jesús Villar — Dev & Design',
     'home.hero.headline': 'I design and develop digital experiences',
-    'home.hero.subline':
-      'Developer & Designer crafting thoughtful interfaces from concept to code.',
     'home.hero.cta.projects': 'See my work',
     'home.hero.cta.contact': 'Get in touch',
     'home.featured.title': 'Featured Projects',
@@ -76,8 +74,6 @@ export const ui = {
     // Home
     'home.title': 'Jesús Villar — Dev & Design',
     'home.hero.headline': 'Diseño y desarrollo experiencias digitales',
-    'home.hero.subline':
-      'Desarrollador y Diseñador creando interfaces cuidadas del concepto al código.',
     'home.hero.cta.projects': 'Ver mi trabajo',
     'home.hero.cta.contact': 'Contactar',
     'home.featured.title': 'Proyectos Destacados',

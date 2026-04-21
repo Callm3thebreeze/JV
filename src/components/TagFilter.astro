@@ -19,7 +19,8 @@ const filters = [
       label: filter.label,
     }))}
     defaultValue="all"
-    variant="neutral"
+    multiple={false}
+    variant="primary"
     size="sm"
     ariaLabel="Filter projects"
     class="tag-filter__pills"
@@ -63,5 +64,14 @@ const filters = [
 
   .tag-filter :global(.filter-pills) {
     gap: var(--space-sm);
+  }
+
+  .tag-filter
+    :global(
+      .tag-filter__pills.filter-pills--primary .filter-pill.is-active,
+      .tag-filter__pills.filter-pills--primary .filter-pill[aria-pressed="true"]
+    ) {
+    background-color: var(--color-blue-light);
+    color: #fff;
   }
 </style>

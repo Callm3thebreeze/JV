@@ -1,6 +1,11 @@
 {
   "version": 1,
   "skills": {
+    "animejs": {
+      "source": "freshtechbro/claudedesignskills",
+      "sourceType": "github",
+      "computedHash": "1ccd0229d51e46aaa5e0d7033f1160c9f21440af470fbaab25fb68d9190c3edb"
+    },
     "astro": {
       "source": "astrolicious/agent-skills",
       "sourceType": "github",
