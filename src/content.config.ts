@@ -12,6 +12,7 @@ const projects = defineCollection({
     description: z.string(),
     tags: z.array(z.enum(['design', 'development'])),
     date: z.coerce.date(),
+    dateLabel: z.string().optional(),
     thumbnail: z.object({
       src: z.string(),
       alt: z.string(),

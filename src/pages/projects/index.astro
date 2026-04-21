@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import ProjectCard from "../../components/ProjectCard.astro";
+import SimpleCard from "../../components/SimpleCard.astro";
 import TagFilter from "../../components/TagFilter.astro";
 import { useTranslations, getProjectsByLocale } from "../../i18n/utils";
 
@@ -22,7 +22,7 @@ const projects = await getProjectsByLocale(lang);
     <TagFilter />
 
     <div class="projects-grid">
-      {projects.map((project) => <ProjectCard project={project} />)}
+      {projects.map((project) => <SimpleCard project={project} />)}
     </div>
   </div>
 </BaseLayout>

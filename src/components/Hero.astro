@@ -52,7 +52,7 @@ const t = useTranslations(lang);
             href={lang === "en" ? "/contact/" : "/es/contact/"}
             variant="secondary"
             size="lg"
-            iconPosition="left"
+            iconPosition="right"
           >
             {t("home.hero.cta.contact")}
             <svg
@@ -82,7 +82,7 @@ const t = useTranslations(lang);
   .hero-intro {
     display: grid;
     grid-template-columns: minmax(18rem, 34rem) minmax(0, 1fr);
-    align-items: start;
+    align-items: center;
     gap: clamp(1.5rem, 4vw, 4rem);
   }
 
@@ -106,7 +106,7 @@ const t = useTranslations(lang);
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: clamp(0.25rem, 1vw, 0.75rem);
+    padding-top: 0;
   }
 
   .hero-headline {

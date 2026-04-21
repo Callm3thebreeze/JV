@@ -1,0 +1,90 @@
+---
+import { existsSync } from "node:fs";
+import type { CollectionEntry } from "astro:content";
+import altLogo from "../assets/alt-logo.png";
+import { getLangFromUrl, localizedPath, getProjectSlug } from "../i18n/utils";
+
+interface Props {
+  project: CollectionEntry<"projects">;
+}
+
+const lang = getLangFromUrl(Astro.url);
+const { project } = Astro.props;
+const { title, thumbnail, tags } = project.data;
+const slug = getProjectSlug(project.id);
+
+const useAltLogoForCard = slug === "jv-portfolio";
+const thumbnailExists = thumbnail?.src
+  ? existsSync(new URL(`../../public${thumbnail.src}`, import.meta.url))
+  : false;
+const useFallbackMedia =
+  useAltLogoForCard || !thumbnail?.src || !thumbnailExists;
+---
+
+<a
+  href={localizedPath(lang, `/projects/${slug}/`)}
+  class="simple-card project-card"
+  aria-label={title}
+  data-tags={tags.join(",")}
+>
+  <article class="simple-card__frame">
+    {
+      useFallbackMedia ? (
+        <img
+          class="simple-card__image simple-card__image--fallback"
+          src={altLogo.src}
+          width={altLogo.width}
+          height={altLogo.height}
+          alt="Jesús Villar alt logo"
+          loading="lazy"
+        />
+      ) : (
+        <img
+          class="simple-card__image"
+          src={thumbnail.src}
+          alt={thumbnail.alt}
+          loading="lazy"
+        />
+      )
+    }
+  </article>
+</a>
+
+<style>
+  .simple-card {
+    display: block;
+    color: var(--color-text);
+    text-decoration: none;
+    transition: transform var(--transition-spring);
+  }
+
+  .simple-card:hover {
+    transform: translateY(-4px) scale(1.01);
+    text-decoration: none;
+  }
+
+  .simple-card:focus-visible {
+    text-decoration: none;
+  }
+
+  .simple-card__frame {
+    background: var(--color-bg);
+    border: var(--border-thick) solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    height: 100%;
+  }
+
+  .simple-card__image {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+  }
+
+  .simple-card__image--fallback {
+    object-fit: contain;
+    padding: var(--space-xl);
+    background-color: color-mix(in srgb, var(--color-bg) 88%, white);
+  }
+</style>

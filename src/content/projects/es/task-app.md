@@ -1,11 +1,11 @@
 ---
-title: "App de Gestión de Tareas"
+title: "The Churfer"
 description: "Aplicación web full-stack para gestión de tareas en equipo con actualizaciones en tiempo real e interfaz drag-and-drop."
 tags: ["design", "development"]
-date: 2025-09-20
+date: 2026-04-01
 thumbnail:
-  src: "/images/projects/task-app.jpg"
-  alt: "Captura de la aplicación de gestión de tareas"
+  src: "/images/projects/churfer.png"
+  alt: "Portada del proyecto The Churfer"
 featured: true
 lang: es
 translationId: task-app

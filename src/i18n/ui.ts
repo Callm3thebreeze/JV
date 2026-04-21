@@ -16,7 +16,7 @@ export const ui = {
 
     // Home
     'home.title': 'Jesús Villar — Dev & Design',
-    'home.hero.headline': 'I design and develop digital experiences',
+    'home.hero.headline': 'I develop digital experiences',
     'home.hero.cta.projects': 'See my work',
     'home.hero.cta.contact': 'Get in touch',
     'home.featured.title': 'Featured Projects',
@@ -25,7 +25,7 @@ export const ui = {
     // Projects
     'projects.title': 'Projects',
     'projects.description':
-      'A collection of projects I have designed, developed, or both.',
+      'Some of the projects I have worked on. In some I worked as a developer, and in others I handled both design and development.',
     'projects.filter.all': 'All',
     'projects.filter.design': 'Design',
     'projects.filter.development': 'Development',
@@ -73,7 +73,7 @@ export const ui = {
 
     // Home
     'home.title': 'Jesús Villar — Dev & Design',
-    'home.hero.headline': 'Diseño y desarrollo experiencias digitales',
+    'home.hero.headline': 'Desarrollo experiencias digitales',
     'home.hero.cta.projects': 'Ver mi trabajo',
     'home.hero.cta.contact': 'Contactar',
     'home.featured.title': 'Proyectos Destacados',
@@ -82,7 +82,7 @@ export const ui = {
     // Projects
     'projects.title': 'Proyectos',
     'projects.description':
-      'Una colección de proyectos que he diseñado, desarrollado, o ambos.',
+      'Algunos de los proyectos en los que he trabajado, en algunos he trabajado como desarrollador, y en otros he llevado a cabo tanto diseño como desarrollo.',
     'projects.filter.all': 'Todos',
     'projects.filter.design': 'Diseño',
     'projects.filter.development': 'Desarrollo',

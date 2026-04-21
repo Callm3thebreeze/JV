@@ -1,11 +1,12 @@
 ---
-title: "E-Commerce Redesign"
+title: "Vodafone Spain"
 description: "Complete redesign of an e-commerce platform focused on improving user experience and conversion rates."
-tags: ["design"]
+tags: ["development"]
 date: 2026-01-15
+dateLabel: "jun 2022 - jun 2025"
 thumbnail:
-  src: "/images/projects/ecommerce-redesign.jpg"
-  alt: "E-commerce redesign mockup"
+  src: "/images/projects/vodafone.png"
+  alt: "Vodafone Spain project cover"
 featured: true
 lang: en
 translationId: ecommerce-redesign

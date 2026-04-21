@@ -326,6 +326,11 @@ main {
   outline-offset: 3px;
 }
 
+a.btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 var(--color-navy);
+}
+
 .btn:active {
   transform: translate(2px, 2px);
   box-shadow: none !important;

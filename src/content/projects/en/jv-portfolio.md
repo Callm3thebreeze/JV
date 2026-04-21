@@ -1,7 +1,7 @@
 ---
 title: "Weather Dashboard"
 description: "A responsive weather dashboard consuming multiple APIs with data visualization and location-based forecasts."
-tags: ["development"]
+tags: ["design", "development"]
 date: 2025-05-10
 thumbnail:
   src: "/images/projects/weather-dashboard.jpg"

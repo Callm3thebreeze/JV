@@ -12,23 +12,22 @@ import {
 
 interface Props {
   project: CollectionEntry<"projects">;
+  showDescription?: boolean;
 }
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const { project } = Astro.props;
-const { title, description, tags, date, thumbnail } = project.data;
+const { project, showDescription = false } = Astro.props;
+const { title, description, tags, date, dateLabel, thumbnail } = project.data;
 const slug = getProjectSlug(project.id);
+const useAltLogoForCard = slug === "jv-portfolio";
 const thumbnailExists = thumbnail?.src
   ? existsSync(new URL(`../../public${thumbnail.src}`, import.meta.url))
   : false;
-const useFallbackMedia = !thumbnail?.src || !thumbnailExists;
+const useFallbackMedia =
+  useAltLogoForCard || !thumbnail?.src || !thumbnailExists;
 
-const cardVariant = tags.includes("design")
-  ? "red"
-  : tags.includes("development")
-    ? "green"
-    : "blue";
+const cardVariant = "blue";
 
 const formattedDate = date.toLocaleDateString(
   lang === "es" ? "es-ES" : "en-US",
@@ -37,6 +36,7 @@ const formattedDate = date.toLocaleDateString(
     month: "short",
   },
 );
+const cardDateLabel = dateLabel ?? formattedDate;
 
 const tagVariantMap = {
   design: "primary",
@@ -47,6 +47,7 @@ const tagVariantMap = {
 <a
   href={localizedPath(lang, `/projects/${slug}/`)}
   class="project-card"
+  aria-label={title}
   data-tags={tags.join(",")}
 >
   <Card
@@ -56,7 +57,7 @@ const tagVariantMap = {
     defaultMediaAlt="Jesús Villar alt logo"
   >
     {
-      thumbnail?.src && thumbnailExists && (
+      !useAltLogoForCard && thumbnail?.src && thumbnailExists && (
         <img
           slot="media"
           class="card-thumbnail"
@@ -66,19 +67,21 @@ const tagVariantMap = {
         />
       )
     }
-
-    <div class="card-tags">
-      {
-        tags.map((tag) => (
-          <Pill variant={tagVariantMap[tag]} size="sm">
-            {t(`projects.tag.${tag}`)}
-          </Pill>
-        ))
-      }
+    {showDescription && <p class="card-description">{description}</p>}
+    <div class="card-meta">
+      <div class="card-tags">
+        {
+          tags.map((tag) => (
+            <Pill variant={tagVariantMap[tag]} size="sm">
+              {t(`projects.tag.${tag}`)}
+            </Pill>
+          ))
+        }
+      </div>
+      <time class="card-date" datetime={date.toISOString()}
+        >{cardDateLabel}</time
+      >
     </div>
-    <h3 class="card-title">{title}</h3>
-    <p class="card-description">{description}</p>
-    <time class="card-date" datetime={date.toISOString()}>{formattedDate}</time>
   </Card>
 </a>
 
@@ -116,22 +119,19 @@ const tagVariantMap = {
     object-fit: cover;
   }
 
+  .card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+  }
+
   .card-tags {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-xs);
-    margin-bottom: var(--space-sm);
-  }
-
-  .card-title {
-    margin: 0 0 var(--space-sm);
-    font-family: var(--font-body);
-    font-size: clamp(1.7rem, 1.45rem + 0.8vw, 2.2rem);
-    font-weight: 700;
-    line-height: 0.95;
-    letter-spacing: -0.05em;
-    color: var(--color-navy);
-    text-decoration: none;
+    margin: 0;
+    justify-content: flex-end;
   }
 
   .card-description {
@@ -146,8 +146,21 @@ const tagVariantMap = {
 
   .card-date {
     display: inline-block;
+    flex-shrink: 0;
     font-size: var(--text-xs);
     color: var(--color-text-muted);
-    margin-top: var(--space-md);
+    margin: 0;
+  }
+
+  @media (max-width: 640px) {
+    .card-meta {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-xs);
+    }
+
+    .card-tags {
+      justify-content: flex-start;
+    }
   }
 </style>

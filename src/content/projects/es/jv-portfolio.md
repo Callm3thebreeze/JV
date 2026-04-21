@@ -1,7 +1,7 @@
 ---
 title: "Dashboard del Tiempo"
 description: "Un dashboard meteorológico responsive que consume múltiples APIs con visualización de datos y previsiones basadas en ubicación."
-tags: ["development"]
+tags: ["design", "development"]
 date: 2025-05-10
 thumbnail:
   src: "/images/projects/weather-dashboard.jpg"

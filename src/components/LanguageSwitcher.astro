@@ -6,12 +6,17 @@ const lang = getLangFromUrl(Astro.url);
 const currentPath = Astro.url.pathname;
 
 function getAlternatePath(targetLang: Lang): string {
+  const isSpanishPath = currentPath === "/es" || currentPath.startsWith("/es/");
+
   if (targetLang === "en") {
-    // Remove /es prefix
-    return currentPath.replace(/^\/es/, "") || "/";
+    // Remove /es prefix only when the current path is localized in Spanish.
+    if (!isSpanishPath) return currentPath || "/";
+    return currentPath.replace(/^\/es(?=\/|$)/, "") || "/";
   }
-  // Add /es prefix
-  return `/es${currentPath}`;
+
+  // Add /es prefix only when not already in Spanish.
+  if (isSpanishPath) return currentPath;
+  return currentPath === "/" ? "/es/" : `/es${currentPath}`;
 }
 ---
 

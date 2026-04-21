@@ -1,11 +1,11 @@
 ---
-title: "Task Management App"
+title: "The Churfer"
 description: "Full-stack web application for team task management with real-time updates and drag-and-drop interface."
 tags: ["design", "development"]
-date: 2025-09-20
+date: 2026-04-01
 thumbnail:
-  src: "/images/projects/task-app.jpg"
-  alt: "Task management application screenshot"
+  src: "/images/projects/churfer.png"
+  alt: "The Churfer project cover"
 featured: true
 lang: en
 translationId: task-app

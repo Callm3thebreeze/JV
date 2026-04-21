@@ -1,11 +1,12 @@
 ---
-title: "Rediseño E-Commerce"
+title: "Vodafone España"
 description: "Rediseño completo de una plataforma de e-commerce enfocado en mejorar la experiencia de usuario y las tasas de conversión."
-tags: ["design"]
+tags: ["development"]
 date: 2026-01-15
+dateLabel: "jun 2022 - jun 2025"
 thumbnail:
-  src: "/images/projects/ecommerce-redesign.jpg"
-  alt: "Mockup del rediseño e-commerce"
+  src: "/images/projects/vodafone.png"
+  alt: "Portada del proyecto Vodafone España"
 featured: true
 lang: es
 translationId: ecommerce-redesign
