@@ -18,7 +18,8 @@ const t = useTranslations(lang);
           alt="Jesús Villar"
           class="hero-logo"
           loading="eager"
-          decoding="async"
+          decoding="sync"
+          fetchpriority="high"
         />
       </div>
 
@@ -79,7 +80,7 @@ const t = useTranslations(lang);
 
   .hero-intro {
     display: grid;
-    grid-template-columns: minmax(16rem, 28rem) minmax(0, 1fr);
+    grid-template-columns: minmax(18rem, 34rem) minmax(0, 1fr);
     align-items: start;
     gap: clamp(1.5rem, 4vw, 4rem);
   }
@@ -88,11 +89,10 @@ const t = useTranslations(lang);
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-left: 2rem;
   }
 
   .hero-logo {
-    width: min(100%, 26rem);
+    width: min(100%, 32rem);
     height: auto;
   }
 
@@ -104,9 +104,11 @@ const t = useTranslations(lang);
   }
 
   .hero-headline {
+    font-size: 6rem;
     max-width: 12ch;
     margin-bottom: var(--space-lg);
     text-align: center;
+    color: var(--color-red);
   }
 
   .hero-subline {
@@ -152,7 +154,11 @@ const t = useTranslations(lang);
 
   @media (max-width: 560px) {
     .hero-logo {
-      width: min(100%, 16rem);
+      width: min(100%, 20rem);
+    }
+
+    .hero-headline {
+      font-size: clamp(3.2rem, 12vw, 6rem);
     }
   }
 </style>

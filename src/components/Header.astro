@@ -26,7 +26,8 @@ const isHome = Astro.url.pathname === "/" || Astro.url.pathname === "/es/";
             alt="Jesús Villar"
             class="logo__img"
             loading="eager"
-            decoding="async"
+            decoding="sync"
+            fetchpriority="high"
           />
         </a>
       )

@@ -51,7 +51,9 @@ const classes = [
             height={altLogo.height}
             alt={defaultMediaAlt}
             class="ui-card__fallback-media"
-            loading="lazy"
+            loading="eager"
+            decoding="sync"
+            fetchpriority="high"
           />
         )}
       </div>
