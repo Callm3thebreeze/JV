@@ -34,7 +34,7 @@
 
   /* ---- Typography ---- */
   --font-display: 'Bagel Fat One', cursive;
-  --font-body: 'Kannada Sangam MN', 'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Inter', 'Kannada Sangam MN', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
   --display-letter-spacing: -0.04em;
 
@@ -258,7 +258,7 @@ main {
   gap: var(--space-sm);
   font-family: var(--font-body);
   font-size: var(--text-sm);
-  font-weight: 600;
+  font-weight: 900;
   line-height: 1;
   border-radius: var(--radius-lg);
   border: var(--border-medium) solid transparent;
