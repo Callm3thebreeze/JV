@@ -30,7 +30,7 @@
   --color-text: var(--color-navy);
   --color-text-muted: #4a5a7a;
   --color-accent: var(--color-blue);
-  --color-accent-hover: var(--color-blue-light);
+  --color-accent-hover: var(--color-navy);
   --color-border: var(--color-navy);
   --color-success: var(--color-green);
   --color-danger: var(--color-red);
@@ -152,12 +152,19 @@ svg {
 
 a {
   color: var(--color-accent);
-  text-decoration: none;
-  transition: color var(--transition-fast);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.14em;
+  transition:
+    color var(--transition-fast),
+    text-decoration-color var(--transition-fast);
 }
 
 a:hover {
   color: var(--color-accent-hover);
+  text-decoration-color: currentColor;
+  font-weight: 700;
 }
 
 a:focus-visible {
