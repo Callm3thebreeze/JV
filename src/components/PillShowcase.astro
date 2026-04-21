@@ -1,0 +1,77 @@
+---
+import Pill from "./Pill.astro";
+
+interface Props {
+  lang?: "en" | "es";
+}
+
+const { lang = "en" } = Astro.props;
+
+const copy = {
+  en: {
+    title: "Pill styles",
+    description:
+      "A preview of the rounded label system with the main retro-pop variants.",
+    primary: "Primary",
+    error: "Error",
+    success: "Success",
+    warning: "Warning",
+  },
+  es: {
+    title: "Estilos de pills",
+    description:
+      "Una vista previa del sistema de etiquetas redondeadas con sus variantes principales retro-pop.",
+    primary: "Primary",
+    error: "Error",
+    success: "Success",
+    warning: "Warning",
+  },
+}[lang];
+---
+
+<section class="container pill-showcase" aria-labelledby="pill-showcase-title">
+  <div class="pill-showcase__header">
+    <h2 id="pill-showcase-title">{copy.title}</h2>
+    <p>{copy.description}</p>
+  </div>
+
+  <div class="pill-showcase__grid">
+    <Pill variant="primary" size="lg">{copy.primary}</Pill>
+    <Pill variant="error" size="lg">{copy.error}</Pill>
+    <Pill variant="success" size="lg">{copy.success}</Pill>
+    <Pill variant="warning" size="lg">{copy.warning}</Pill>
+  </div>
+</section>
+
+<style>
+  .pill-showcase {
+    padding-block: var(--space-2xl);
+  }
+
+  .pill-showcase__header {
+    max-width: 42rem;
+    margin-bottom: var(--space-xl);
+  }
+
+  .pill-showcase__header p {
+    margin-top: var(--space-sm);
+    color: var(--color-text-muted);
+  }
+
+  .pill-showcase__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, max-content));
+    gap: var(--space-lg);
+    align-items: start;
+  }
+
+  @media (max-width: 640px) {
+    .pill-showcase__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .pill-showcase :global(.pill) {
+      width: 100%;
+    }
+  }
+</style>

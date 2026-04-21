@@ -10,11 +10,17 @@
 :root {
   /* ---- Color Palette ---- */
   --color-navy: #002E73;
+  --color-navy-dark: #001A45;
   --color-blue: #1F45CC;
   --color-green: #2CC268;
+  --color-green-dark: #003114;
   --color-blue-light: #4C71F4;
+  --color-periwinkle: #AFC1FF;
   --color-lavender: #CDD5F2;
   --color-red: #FA4B4B;
+  --color-red-dark: #430000;
+  --color-orange: #FF9900;
+  --color-brown: #402600;
   --color-cream: #FFF5D2;
 
   /* ---- Semantic Colors ---- */
@@ -192,7 +198,7 @@ h1, h2, h3, h4 {
   font-weight: 400; /* Bagel Fat One only has 400 */
   text-wrap: balance;
   letter-spacing: var(--display-letter-spacing);
-  color: var(--color-blue);
+  color: var(--color-text);
 }
 
 h1 { font-size: var(--text-4xl); }

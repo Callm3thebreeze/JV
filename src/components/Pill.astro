@@ -1,0 +1,133 @@
+---
+interface Props {
+  variant?: "primary" | "error" | "success" | "warning";
+  size?: "sm" | "md" | "lg";
+  href?: string;
+  class?: string;
+  ariaLabel?: string;
+  [key: string]: unknown;
+}
+
+const {
+  variant = "primary",
+  size = "md",
+  href,
+  class: className = "",
+  ariaLabel,
+  ...rest
+} = Astro.props;
+
+const variantClassMap = {
+  primary: "pill--primary",
+  error: "pill--error",
+  success: "pill--success",
+  warning: "pill--warning",
+} as const;
+
+const sizeClassMap = {
+  sm: "pill--sm",
+  md: "pill--md",
+  lg: "pill--lg",
+} as const;
+
+const classes = [
+  "pill",
+  variantClassMap[variant],
+  sizeClassMap[size],
+  className,
+]
+  .filter(Boolean)
+  .join(" ");
+---
+
+{
+  href ? (
+    <a href={href} class={classes} aria-label={ariaLabel} {...rest}>
+      <slot />
+    </a>
+  ) : (
+    <span class={classes} aria-label={ariaLabel} {...rest}>
+      <slot />
+    </span>
+  )
+}
+
+<style>
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: var(--border-medium) solid currentColor;
+    border-radius: var(--radius-full);
+    font-family: var(--font-body);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .pill--sm {
+    min-height: 2rem;
+    padding: 0.3rem 0.9rem;
+    font-size: var(--text-xs);
+    letter-spacing: -0.03em;
+  }
+
+  .pill--md {
+    min-height: 3rem;
+    padding: 0.58rem 1.5rem;
+    font-size: clamp(1rem, 0.92rem + 0.24vw, 1.15rem);
+  }
+
+  .pill--lg {
+    min-height: 4.125rem;
+    padding: 0.8rem 2.6rem;
+    font-size: clamp(1.45rem, 1.2rem + 0.5vw, 1.9rem);
+  }
+
+  .pill--primary {
+    background-color: var(--color-periwinkle);
+    color: var(--color-navy);
+  }
+
+  .pill--error {
+    background-color: var(--color-red);
+    color: var(--color-red-dark);
+  }
+
+  .pill--success {
+    background-color: var(--color-green);
+    color: var(--color-green-dark);
+  }
+
+  .pill--warning {
+    background-color: var(--color-orange);
+    color: var(--color-brown);
+  }
+
+  a.pill {
+    transition:
+      transform var(--transition-fast),
+      color var(--transition-fast),
+      background-color var(--transition-fast),
+      border-color var(--transition-fast);
+  }
+
+  a.pill:hover {
+    transform: translateY(-1px);
+  }
+
+  .pill:focus-visible {
+    outline: var(--border-medium) solid var(--color-blue-light);
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 640px) {
+    .pill--lg {
+      min-height: 3.5rem;
+      padding: 0.72rem 2rem;
+      font-size: clamp(1.2rem, 1.05rem + 0.45vw, 1.5rem);
+    }
+  }
+</style>

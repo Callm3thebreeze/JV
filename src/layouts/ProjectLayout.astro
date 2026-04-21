@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
+import Pill from "../components/Pill.astro";
 import {
   getLangFromUrl,
   useTranslations,
@@ -38,6 +39,11 @@ const formattedDate = date.toLocaleDateString(
     month: "long",
   },
 );
+
+const tagVariantMap = {
+  design: "primary",
+  development: "success",
+} as const;
 ---
 
 <BaseLayout title={`${title} — Jesús Villar`} description={description}>
@@ -57,7 +63,9 @@ const formattedDate = date.toLocaleDateString(
       <div class="project-tags">
         {
           tags.map((tag) => (
-            <span class={`tag tag--${tag}`}>{t(`projects.tag.${tag}`)}</span>
+            <Pill variant={tagVariantMap[tag]} size="sm">
+              {t(`projects.tag.${tag}`)}
+            </Pill>
           ))
         }
       </div>
@@ -133,33 +141,7 @@ const formattedDate = date.toLocaleDateString(
     display: flex;
     gap: var(--space-sm);
     margin-bottom: var(--space-md);
-  }
-
-  .tag {
-    font-size: var(--text-xs);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding: var(--space-xs) var(--space-sm);
-    border-radius: var(--radius-full);
-  }
-
-  .tag--design {
-    background-color: color-mix(
-      in srgb,
-      var(--color-tag-design) 20%,
-      transparent
-    );
-    color: var(--color-tag-design);
-  }
-
-  .tag--development {
-    background-color: color-mix(
-      in srgb,
-      var(--color-tag-development) 20%,
-      transparent
-    );
-    color: var(--color-tag-development);
+    flex-wrap: wrap;
   }
 
   .project-date {

@@ -2,6 +2,7 @@
 import { existsSync } from "node:fs";
 import type { CollectionEntry } from "astro:content";
 import Card from "./Card.astro";
+import Pill from "./Pill.astro";
 import {
   getLangFromUrl,
   useTranslations,
@@ -36,6 +37,11 @@ const formattedDate = date.toLocaleDateString(
     month: "short",
   },
 );
+
+const tagVariantMap = {
+  design: "primary",
+  development: "success",
+} as const;
 ---
 
 <a
@@ -64,7 +70,9 @@ const formattedDate = date.toLocaleDateString(
     <div class="card-tags">
       {
         tags.map((tag) => (
-          <span class={`tag tag--${tag}`}>{t(`projects.tag.${tag}`)}</span>
+          <Pill variant={tagVariantMap[tag]} size="sm">
+            {t(`projects.tag.${tag}`)}
+          </Pill>
         ))
       }
     </div>
@@ -103,27 +111,6 @@ const formattedDate = date.toLocaleDateString(
     flex-wrap: wrap;
     gap: var(--space-xs);
     margin-bottom: var(--space-sm);
-  }
-
-  .tag {
-    font-size: var(--text-xs);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding: 2px var(--space-sm);
-    border-radius: var(--radius-full);
-  }
-
-  .tag--design {
-    background-color: color-mix(in srgb, var(--color-red) 16%, transparent);
-    color: var(--color-red);
-    border-color: var(--color-red);
-  }
-
-  .tag--development {
-    background-color: color-mix(in srgb, var(--color-green) 16%, transparent);
-    color: var(--color-green);
-    border-color: var(--color-green);
   }
 
   .card-title {
