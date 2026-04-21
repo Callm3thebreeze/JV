@@ -91,7 +91,7 @@ const sizeClassMap = {
 
 <style>
   .filter-pills {
-    --filter-pill-active-bg: var(--color-periwinkle);
+    --filter-pill-active-bg: var(--color-bg);
     --filter-pill-active-text: var(--color-navy);
     display: flex;
     flex-wrap: wrap;
@@ -100,7 +100,7 @@ const sizeClassMap = {
   }
 
   .filter-pills--neutral {
-    --filter-pill-active-bg: var(--color-cream);
+    --filter-pill-active-bg: var(--color-bg);
     --filter-pill-active-text: var(--color-navy);
   }
 
@@ -157,15 +157,16 @@ const sizeClassMap = {
   }
 
   .filter-pill:hover {
-    background-color: color-mix(in srgb, var(--color-periwinkle) 30%, white);
+    background-color: var(--filter-pill-active-bg);
+    color: var(--filter-pill-active-text);
   }
 
   .filter-pill.is-active,
   .filter-pill[aria-pressed="true"] {
     transform: translate(2px, 2px);
     box-shadow: none;
-    background-color: var(--color-blue-light);
-    color: #ffff;
+    background-color: var(--filter-pill-active-bg);
+    color: var(--filter-pill-active-text);
   }
 
   .filter-pill:focus-visible {
