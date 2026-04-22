@@ -10,6 +10,7 @@ import {
   getProjectSlug,
 } from "../i18n/utils";
 import type { CollectionEntry } from "astro:content";
+import { resolveProjectThumbnail } from "../utils/projectThumbnail";
 
 interface Props {
   project: CollectionEntry<"projects">;
@@ -32,6 +33,7 @@ const {
 const targetLang = lang === "en" ? "es" : "en";
 const translation = await getProjectTranslation(translationId, targetLang);
 const translationSlug = translation ? getProjectSlug(translation.id) : null;
+const resolvedThumbnail = resolveProjectThumbnail(thumbnail?.src);
 
 const formattedDate = date.toLocaleDateString(
   lang === "es" ? "es-ES" : "en-US",
@@ -75,10 +77,10 @@ const tagVariantMap = {
     </header>
 
     {
-      thumbnail && (
+      resolvedThumbnail && (
         <Image
           class="project-thumbnail"
-          src={thumbnail.src}
+          src={resolvedThumbnail}
           alt={thumbnail.alt}
           loading="eager"
           format="webp"

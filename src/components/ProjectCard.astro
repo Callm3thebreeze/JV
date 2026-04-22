@@ -9,6 +9,7 @@ import {
   localizedPath,
   getProjectSlug,
 } from "../i18n/utils";
+import { resolveProjectThumbnail } from "../utils/projectThumbnail";
 
 interface Props {
   project: CollectionEntry<"projects">;
@@ -20,8 +21,9 @@ const t = useTranslations(lang);
 const { project, showDescription = false } = Astro.props;
 const { title, description, tags, date, dateLabel, thumbnail } = project.data;
 const slug = getProjectSlug(project.id);
+const resolvedThumbnail = resolveProjectThumbnail(thumbnail?.src);
 const useAltLogoForCard = slug === "jv-portfolio";
-const useFallbackMedia = useAltLogoForCard || !thumbnail?.src;
+const useFallbackMedia = useAltLogoForCard || !resolvedThumbnail;
 
 const cardVariant = "blue";
 
@@ -53,11 +55,11 @@ const tagVariantMap = {
     defaultMediaAlt="Jesús Villar alt logo"
   >
     {
-      !useAltLogoForCard && thumbnail?.src && (
+      !useAltLogoForCard && resolvedThumbnail && (
         <Image
           slot="media"
           class="card-thumbnail"
-          src={thumbnail.src}
+          src={resolvedThumbnail}
           alt={thumbnail.alt}
           loading="lazy"
           format="webp"
