@@ -1,20 +1,20 @@
 import type { ImageMetadata } from "astro";
 import churferThumbnail from "../assets/churfer.png";
 import copmThumbnail from "../assets/copm.png";
-import jvPortfolioThumbnail from "../assets/jv-portfolio.png";
+import jvPortfolioThumbnail from "../assets/main-logo.png";
 import vodafoneThumbnail from "../assets/vodafone.png";
 
 const projectThumbnailByPath: Record<string, ImageMetadata> = {
   "../../../assets/churfer.png": churferThumbnail,
   "../../../assets/copm.png": copmThumbnail,
-  "../../../assets/jv-portfolio.png": jvPortfolioThumbnail,
+  "../../../assets/main-logo.png": jvPortfolioThumbnail,
   "../../../assets/vodafone.png": vodafoneThumbnail,
 };
 
 const projectThumbnailByName: Record<string, ImageMetadata> = {
   "churfer.png": churferThumbnail,
   "copm.png": copmThumbnail,
-  "jv-portfolio.png": jvPortfolioThumbnail,
+  "main-logo.png": jvPortfolioThumbnail,
   "vodafone.png": vodafoneThumbnail,
 };
 

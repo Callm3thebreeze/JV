@@ -1,31 +1,34 @@
 ---
-title: "Weather Dashboard"
-description: "A responsive weather dashboard consuming multiple APIs with data visualization and location-based forecasts."
+title: "JV Portfolio"
+description: "Bilingual personal portfolio designed and developed to present projects, services, and professional contact with a distinctive visual style and a scalable content architecture."
 tags: ["design", "development"]
-date: 2025-05-10
+date: 2026-04-22
 thumbnail:
-  src: "../../../assets/jv-portfolio.png"
-  alt: "Weather dashboard interface"
+  src: "../../../assets/main-logo.png"
+  alt: "Main interface of the JV portfolio"
 logo:
-  src: "../../../assets/jv-portfolio.png"
-  alt: "Weather dashboard logo"
-featured: false
+  src: "../../../assets/alt-logo.png"
+  alt: "JV alternate logo"
+featured: true
 lang: en
-translationId: weather-dashboard
-intro: "A front-end weather dashboard that pulls data from multiple weather APIs and presents it in a clean, readable format."
-overview: "This project was designed to prove that a polished, data-rich product can be built with lightweight tooling and clear UX decisions."
+translationId: jv-portfolio
+role: "Design and Development."
+intro: "This project is my professional website: a personal platform to showcase work, explain processes, and make it easier for clients or teams to get in touch."
+overview: "The goal was to build a fast, clear, and maintainable digital presence, with a custom visual system, reusable component structure, and editable content in two languages."
 sections:
-  - title: "Technical Highlights"
-    text: "Vanilla JavaScript with no framework dependencies.\n\nResponsive design from mobile to desktop.\n\nGeolocation API for automatic location detection.\n\nChart.js visualizations for temperature and precipitation.\n\nService Worker for offline cached data."
+  - title: "Visual direction and experience"
+    text: "The site is built around a custom retro-pop visual language, with a defined color palette, expressive typography, and consistent UI components. The objective was to deliver a recognizable experience with personality, without compromising readability or visual hierarchy across desktop and mobile."
     imagePosition: "right"
     image:
-      src: "../../../assets/jv-portfolio.png"
-      alt: "Weather dashboard charts and controls"
-  - title: "What I Learned"
-    text: "This project was an exercise in building a polished product with vanilla technologies. No frameworks, no build tools, just clean JS, HTML, and CSS."
+      src: "../../../assets/main-logo.png"
+      alt: "General view of the portfolio interface"
+  - title: "Architecture and content"
+    text: "The website is built with **Astro** and **TypeScript**, organized around reusable components and content collections. The projects section is powered by typed markdown, making it easy to update copy, technologies, and images quickly without touching presentation structure."
     imagePosition: "full"
-techStack: ["JavaScript", "HTML", "CSS", "REST APIs"]
+  - title: "Scalability and internationalization"
+    text: "The project includes bilingual support (es/en), localized routes, and utilities to keep equivalent content synchronized between languages. This lets me iterate and expand the portfolio safely while maintaining consistency in navigation, SEO, and user experience."
+    imagePosition: "full"
+techStack: ["Astro", "TypeScript", "CSS", "Anime.js", "Content Collections", "i18n"]
 links:
-  live: "https://example.com/weather"
-  repo: "https://github.com/jesusvillar/weather-dashboard"
+  live: "https://jesusvillar.dev"
 ---
