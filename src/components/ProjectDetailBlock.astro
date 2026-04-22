@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
+import { formatInlineRichText } from "../utils/formatRichText";
 
 interface BlockImage {
   src: ImageMetadata;
@@ -19,6 +20,9 @@ const textParagraphs = text
   .split(/\n\s*\n/g)
   .map((paragraph) => paragraph.trim())
   .filter(Boolean);
+const textParagraphsHtml = textParagraphs.map((paragraph) =>
+  formatInlineRichText(paragraph),
+);
 ---
 
 <section
@@ -43,7 +47,7 @@ const textParagraphs = text
 
   <div class="project-detail-block__content">
     <h2 class="title--inter">{title}</h2>
-    {textParagraphs.map((paragraph) => <p>{paragraph}</p>)}
+    {textParagraphsHtml.map((paragraphHtml) => <p set:html={paragraphHtml} />)}
   </div>
 
   {

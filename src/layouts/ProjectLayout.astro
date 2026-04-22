@@ -1,11 +1,11 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
 import { Image } from "astro:assets";
-import Pill from "../components/Pill.astro";
 import ProjectDetailBlock from "../components/ProjectDetailBlock.astro";
 import { getLangFromUrl, useTranslations, localizedPath } from "../i18n/utils";
 import type { CollectionEntry } from "astro:content";
 import { resolveProjectThumbnail } from "../utils/projectThumbnail";
+import { formatInlineRichText } from "../utils/formatRichText";
 
 interface Props {
   project: CollectionEntry<"projects">;
@@ -17,7 +17,6 @@ const { project } = Astro.props;
 const {
   title,
   description,
-  tags,
   date,
   thumbnail,
   logo,
@@ -37,11 +36,8 @@ const formattedDate = date.toLocaleDateString(
     month: "long",
   },
 );
-
-const tagVariantMap = {
-  design: "primary",
-  development: "success",
-} as const;
+const introHtml = formatInlineRichText(intro ?? description);
+const overviewHtml = overview ? formatInlineRichText(overview) : null;
 ---
 
 <BaseLayout title={`${title} — Jesús Villar`} description={description}>
@@ -51,15 +47,6 @@ const tagVariantMap = {
     </nav>
 
     <header class="project-header">
-      <div class="project-tags">
-        {
-          tags.map((tag) => (
-            <Pill variant={tagVariantMap[tag]} size="sm">
-              {t(`projects.tag.${tag}`)}
-            </Pill>
-          ))
-        }
-      </div>
       <div class="project-title-row">
         <div>
           <h1 class="title--inter">{title}</h1>
@@ -82,8 +69,8 @@ const tagVariantMap = {
     </header>
 
     <section class="project-content project-intro-block">
-      <p>{intro ?? description}</p>
-      {overview && <p>{overview}</p>}
+      <p set:html={introHtml} />
+      {overviewHtml && <p set:html={overviewHtml} />}
     </section>
 
     {
@@ -151,13 +138,6 @@ const tagVariantMap = {
     justify-content: space-between;
     align-items: flex-start;
     gap: var(--space-lg);
-  }
-
-  .project-tags {
-    display: flex;
-    gap: var(--space-sm);
-    margin-bottom: var(--space-md);
-    flex-wrap: wrap;
   }
 
   .project-date {

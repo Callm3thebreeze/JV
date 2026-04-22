@@ -1,6 +1,6 @@
 ---
 title: "Vodafone España"
-description: "Rediseño completo de una plataforma de e-commerce enfocado en mejorar la experiencia de usuario y las tasas de conversión."
+description: "Empresa grande y ecosistema digital masivo. En Vodafone comenzó mi experiencia como desarrollador frontend con un cliente comercial real, durante los 3 aaños que trabajé para Vodafone asenté las bases de mis conocimientos de programación con tareas y lenjuages muy diversos."
 tags: ["development"]
 date: 2026-01-15
 dateLabel: "jun 2022 - jun 2025"
@@ -13,8 +13,8 @@ logo:
 featured: true
 lang: es
 translationId: ecommerce-redesign
-intro: "Un rediseño integral de una plataforma de e-commerce, repensando toda la experiencia de compra desde el descubrimiento de productos hasta el checkout."
-overview: "El objetivo fue simplificar la navegación, reducir la fricción en el pago y facilitar el uso para clientes nuevos y recurrentes."
+intro: "Gran empresa y ecosistema digital masivo. En Vodafone comenzó mi experiencia como desarrollador frontend con un cliente comercial real, durante los **3 años** que trabajé para Vodafone asenté las bases de mis conocimientos de programación con tareas y lenjuages muy diversos."
+overview: "Desarrollo, mantenimiento, revisiones de accesibilidad, resolución de problemas"
 sections:
   - title: "El Reto"
     text: "La plataforma existente tenía una alta tasa de abandono de carrito y los usuarios tenían dificultades para encontrar productos. La navegación era confusa y el proceso de compra tenía demasiados pasos."
