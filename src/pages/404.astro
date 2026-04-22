@@ -2,12 +2,20 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getLangFromUrl, useTranslations, localizedPath } from "../i18n/utils";
 import Button from "../components/Button.astro";
+import { seoContent } from "../seo/content";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const seo = seoContent[lang];
 ---
 
-<BaseLayout title={`${t("404.title")} — Jesús Villar`}>
+<BaseLayout
+  title={seo.metadata.notFound.title}
+  description={seo.metadata.notFound.description}
+  keywords={seo.metadata.notFound.keywords}
+  noindex={true}
+  alternates={false}
+>
   <div class="container not-found">
     <h1>{t("404.title")}</h1>
     <p>{t("404.description")}</p>

@@ -3,15 +3,29 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import SimpleCard from "../../components/SimpleCard.astro";
 import TagFilter from "../../components/TagFilter.astro";
 import { useTranslations, getProjectsByLocale } from "../../i18n/utils";
+import { seoContent } from "../../seo/content";
+import { buildProjectsSchemas } from "../../seo/schema";
 
 const lang = "en";
 const t = useTranslations(lang);
 const projects = await getProjectsByLocale(lang);
+const seo = seoContent[lang];
+const schema = buildProjectsSchemas({
+  lang,
+  title: seo.metadata.projects.title,
+  description: seo.metadata.projects.description,
+  projects,
+  homeLabel: t("nav.home"),
+  projectsLabel: t("nav.projects"),
+});
 ---
 
 <BaseLayout
-  title={`${t("projects.title")} — Jesús Villar`}
-  description={t("projects.description")}
+  title={seo.metadata.projects.title}
+  description={seo.metadata.projects.description}
+  canonicalPath="/projects/"
+  keywords={seo.metadata.projects.keywords}
+  schema={schema}
 >
   <div class="container">
     <header class="page-header">

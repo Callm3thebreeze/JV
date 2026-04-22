@@ -3,10 +3,17 @@ import BaseLayout from "./BaseLayout.astro";
 import { Image } from "astro:assets";
 import Pill from "../components/Pill.astro";
 import ProjectDetailBlock from "../components/ProjectDetailBlock.astro";
-import { getLangFromUrl, useTranslations, localizedPath } from "../i18n/utils";
+import {
+  getLangFromUrl,
+  useTranslations,
+  localizedPath,
+  getProjectTranslation,
+  getProjectSlug,
+} from "../i18n/utils";
 import type { CollectionEntry } from "astro:content";
 import { resolveProjectThumbnail } from "../utils/projectThumbnail";
 import { formatInlineRichText } from "../utils/formatRichText";
+import { buildProjectKeywords, buildProjectSchemas } from "../seo/schema";
 
 interface Props {
   project: CollectionEntry<"projects">;
@@ -29,6 +36,29 @@ const {
 } = project.data;
 const resolvedLogo = logo?.src ? resolveProjectThumbnail(logo.src) : null;
 const logoAlt = logo?.alt ?? "";
+const slug = getProjectSlug(project.id);
+const otherLang = lang === "es" ? "en" : "es";
+const translatedProject = await getProjectTranslation(
+  project.data.translationId,
+  otherLang,
+);
+const translatedProjectPath = translatedProject
+  ? localizedPath(otherLang, `/projects/${getProjectSlug(translatedProject.id)}/`)
+  : null;
+const seoTitle =
+  lang === "es"
+    ? `${title} | Caso de estudio web | Jesús Villar`
+    : `${title} | Web Design & Frontend Case Study | Jesús Villar`;
+const seoKeywords = buildProjectKeywords(project, lang);
+const seoSchema = buildProjectSchemas({
+  lang,
+  project,
+  title: seoTitle,
+  description,
+  homeLabel: t("nav.home"),
+  projectsLabel: t("nav.projects"),
+});
+const socialImage = `/images/projects/${slug}.png`;
 
 const formattedDate = date.toLocaleDateString(
   lang === "es" ? "es-ES" : "en-US",
@@ -42,10 +72,25 @@ const overviewHtml = overview ? formatInlineRichText(overview) : null;
 const roleLabel = lang === "es" ? "Rol" : "Role";
 ---
 
-<BaseLayout title={`${title} — Jesús Villar`} description={description}>
+<BaseLayout
+  title={seoTitle}
+  description={description}
+  canonicalPath={localizedPath(lang, `/projects/${slug}/`)}
+  ogImage={socialImage}
+  keywords={seoKeywords}
+  pageType="article"
+  publishedTime={date.toISOString()}
+  modifiedTime={date.toISOString()}
+  schema={seoSchema}
+>
   <article class="container container--narrow">
     <nav class="project-nav">
       <a href={localizedPath(lang, "/projects/")}>&larr; {t("project.back")}</a>
+      {
+        translatedProjectPath && (
+          <a href={translatedProjectPath}>{t("project.otherLang")} &rarr;</a>
+        )
+      }
     </nav>
 
     <header class="project-header">

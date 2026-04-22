@@ -8,16 +8,37 @@ import { getLangFromUrl } from "../i18n/utils";
 import mainLogo from "../assets/main-logo.png";
 import smallLogo from "../assets/small-logo.png";
 import altLogo from "../assets/alt-logo.png";
+import type { Lang } from "../i18n/ui";
+import type { JsonLd } from "../seo/schema";
 
 interface Props {
   title: string;
   description?: string;
   ogImage?: string;
   canonicalPath?: string;
+  keywords?: string[];
+  pageType?: "website" | "article";
+  noindex?: boolean;
+  publishedTime?: string;
+  modifiedTime?: string;
+  schema?: JsonLd[];
+  alternates?: Partial<Record<Lang, string>> | false;
 }
 
 const lang = getLangFromUrl(Astro.url);
-const { title, description, ogImage, canonicalPath } = Astro.props;
+const {
+  title,
+  description,
+  ogImage,
+  canonicalPath,
+  keywords,
+  pageType,
+  noindex,
+  publishedTime,
+  modifiedTime,
+  schema,
+  alternates,
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -46,6 +67,13 @@ const { title, description, ogImage, canonicalPath } = Astro.props;
       lang={lang}
       ogImage={ogImage}
       canonicalPath={canonicalPath}
+      keywords={keywords}
+      pageType={pageType}
+      noindex={noindex}
+      publishedTime={publishedTime}
+      modifiedTime={modifiedTime}
+      schema={schema}
+      alternates={alternates}
     />
 
     <ClientRouter fallback="animate" />

@@ -1,0 +1,29 @@
+# Jesús Villar
+
+> Bilingual portfolio for Jesús Villar, frontend developer and web designer.
+
+The site is a portfolio in active growth focused on:
+- Frontend development
+- Web design
+- Accessibility
+- Performance
+- Bilingual content architecture
+
+Primary pages:
+- https://jesusvillar.dev/
+- https://jesusvillar.dev/projects/
+- https://jesusvillar.dev/contact/
+- https://jesusvillar.dev/es/
+- https://jesusvillar.dev/es/projects/
+- https://jesusvillar.dev/es/contact/
+
+Profile:
+- Name: Jesús Villar
+- Role: Frontend developer and web designer
+- Email: hello@jesusvillar.dev
+- GitHub: https://github.com/jesusvillar
+- LinkedIn: https://linkedin.com/in/jesusvillar
+
+Notes:
+- The portfolio is being expanded progressively with new case studies and service content.
+- Existing project pages describe real work in web design and frontend development.

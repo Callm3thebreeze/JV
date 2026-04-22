@@ -1,44 +1,27 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Hero from "../../components/Hero.astro";
-import ButtonShowcase from "../../components/ButtonShowcase.astro";
-import CasioButtonsShowcase from "../../components/CasioButtonsShowcase.astro";
-import CardShowcase from "../../components/CardShowcase.astro";
-import PillShowcase from "../../components/PillShowcase.astro";
-import ProjectCard from "../../components/ProjectCard.astro";
-import {
-  useTranslations,
-  getFeaturedProjects,
-  localizedPath,
-} from "../../i18n/utils";
+import HomeSeoSection from "../../components/HomeSeoSection.astro";
+import { seoContent } from "../../seo/content";
+import { buildHomeSchemas } from "../../seo/schema";
 
 const lang = "es";
-const t = useTranslations(lang);
-const featured = await getFeaturedProjects(lang);
+const seo = seoContent[lang];
+const schema = buildHomeSchemas({
+  lang,
+  title: seo.metadata.home.title,
+  description: seo.metadata.home.description,
+  featuredProjects: [],
+});
 ---
 
-<BaseLayout title={t("home.title")} description={t("meta.description")}>
+<BaseLayout
+  title={seo.metadata.home.title}
+  description={seo.metadata.home.description}
+  ogImage="/images/projects/jv-portfolio.png"
+  keywords={seo.metadata.home.keywords}
+  schema={schema}
+>
   <Hero />
-  <ButtonShowcase lang="es" />
-  <CasioButtonsShowcase lang="es" />
-  <PillShowcase lang="es" />
-  <CardShowcase lang="es" />
-
-  {
-    featured.length > 0 && (
-      <section class="container featured">
-        <div class="featured-header">
-          <h2>{t("home.featured.title")}</h2>
-          <a href={localizedPath(lang, "/projects/")}>
-            {t("home.featured.viewAll")} &rarr;
-          </a>
-        </div>
-        <div class="projects-grid">
-          {featured.map((project) => (
-            <ProjectCard project={project} />
-          ))}
-        </div>
-      </section>
-    )
-  }
+  <HomeSeoSection lang={lang} />
 </BaseLayout>

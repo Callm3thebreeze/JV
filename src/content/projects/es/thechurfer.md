@@ -5,9 +5,9 @@ tags: ["design", "development"]
 date: 2026-04-01
 thumbnail:
   src: "../../../assets/churfer.png"
-  alt: ""
+  alt: "Portada del proyecto The Churfer"
 logo:
-  alt: ""
+  alt: "Logotipo de The Churfer"
 featured: true
 lang: es
 translationId: churfer
@@ -20,7 +20,7 @@ sections:
     imagePosition: "right"
     image:
       src: "../../../assets/churfer/mobile1.jpg"
-      alt: ""
+      alt: "Versión mobile del portfolio inmersivo de The Churfer"
   - title: "Identidad visual"
     text: "El logotipo se inspira en la estética de marcas de surf de principios de los 2000, como Quiksilver u O'Neill, con una tipografía gruesa y compacta de carácter orgánico, alejada de un estilo excesivamente tecnológico o minimalista. También está pensado para reproducirse con facilidad en distintos medios: digital, serigrafía y vinilo."
     imagePosition: "left"
@@ -32,7 +32,7 @@ sections:
     imagePosition: "full"
     image:
       src: "../../../assets/churfer/detalle-foto.png"
-      alt: ""
+      alt: "Detalle editorial de fotografía en la web de The Churfer"
 techStack: ["Astro", "TypeScript", "CSS", "Emdash CMS", "Cloudinary"]
 links:
   live: "https://the-churfer-website.vercel.app/"

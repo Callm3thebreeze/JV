@@ -22,7 +22,7 @@ sections:
     imagePosition: "full"
     image:
       src: "../../../assets/vodafone/configurador.png"
-      alt: ""
+      alt: "Interactive Vodafone plan configurator developed for campaigns"
   - title: "Repository and Component Library Development & Maintenance"
     text: "In this team, I worked on developing new components and evolving existing ones in both **Vanilla JS** and **Angular**. We also carried out a large-scale component refactor to meet accessibility standards under external audit pressure, which reinforced one of the principles that still guides my work today: **- accessibility first -**. I also participated in migrating legacy documentation to a new format built with **Docusaurus**, and in designing a new global monorepo architecture based on **islands architecture**, using my favorite framework, Astro. The goal of this new approach was to improve overall website performance through selective loading of only the required resources."
     imagePosition: ""

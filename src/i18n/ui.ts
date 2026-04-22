@@ -15,7 +15,7 @@ export const ui = {
     'nav.contact': 'Contact',
 
     // Home
-    'home.title': 'Jesús Villar — Dev & Design',
+    'home.title': 'Jesús Villar | Frontend Developer & Web Designer',
     'home.hero.headline': 'I develop digital experiences',
     'home.hero.cta.projects': 'See my work',
     'home.hero.cta.contact': 'Get in touch',
@@ -25,7 +25,7 @@ export const ui = {
     // Projects
     'projects.title': 'Projects',
     'projects.description':
-      'Some of the projects I have worked on. In some I worked as a developer, and in others I handled both design and development.',
+      'Selected case studies in frontend development, web design, accessibility and performance-focused digital experiences.',
     'projects.filter.all': 'All',
     'projects.filter.design': 'Design',
     'projects.filter.development': 'Development',
@@ -42,7 +42,8 @@ export const ui = {
 
     // Contact
     'contact.title': 'Contact',
-    'contact.description': "Let's work together. Send me a message.",
+    'contact.description':
+      "Let's work together on websites, portfolios, landing pages and digital experiences. Send me a message.",
     'contact.form.name': 'Name',
     'contact.form.email': 'Email',
     'contact.form.subject': 'Subject',
@@ -63,7 +64,7 @@ export const ui = {
 
     // Meta
     'meta.description':
-      'Jesús Villar — Developer & Designer. Portfolio showcasing web design and development projects.',
+      'Jesús Villar — frontend developer and web designer. Portfolio with bilingual case studies in web design, accessibility and development.',
   },
   es: {
     // Navigation
@@ -72,7 +73,7 @@ export const ui = {
     'nav.contact': 'Contacto',
 
     // Home
-    'home.title': 'Jesús Villar — Dev & Design',
+    'home.title': 'Jesús Villar | Desarrollador Frontend y Diseñador Web',
     'home.hero.headline': 'Desarrollo experiencias digitales',
     'home.hero.cta.projects': 'Ver mi trabajo',
     'home.hero.cta.contact': 'Contactar',
@@ -82,7 +83,7 @@ export const ui = {
     // Projects
     'projects.title': 'Proyectos',
     'projects.description':
-      'Algunos de los proyectos en los que he trabajado, en algunos he trabajado como desarrollador, y en otros he llevado a cabo tanto diseño como desarrollo.',
+      'Casos de estudio seleccionados de desarrollo frontend, diseño web, accesibilidad y experiencias digitales centradas en rendimiento.',
     'projects.filter.all': 'Todos',
     'projects.filter.design': 'Diseño',
     'projects.filter.development': 'Desarrollo',
@@ -99,7 +100,8 @@ export const ui = {
 
     // Contact
     'contact.title': 'Contacto',
-    'contact.description': 'Trabajemos juntos. Envíame un mensaje.',
+    'contact.description':
+      'Trabajemos juntos en webs, portfolios, landing pages y experiencias digitales. Envíame un mensaje.',
     'contact.form.name': 'Nombre',
     'contact.form.email': 'Email',
     'contact.form.subject': 'Asunto',
@@ -120,6 +122,6 @@ export const ui = {
 
     // Meta
     'meta.description':
-      'Jesús Villar — Desarrollador y Diseñador. Portfolio con proyectos de diseño y desarrollo web.',
+      'Jesús Villar — desarrollador frontend y diseñador web. Portfolio bilingüe con casos de estudio de diseño web, accesibilidad y desarrollo.',
   },
 } as const;

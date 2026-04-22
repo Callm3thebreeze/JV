@@ -2,14 +2,27 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ContactForm from "../../components/ContactForm.astro";
 import { useTranslations } from "../../i18n/utils";
+import { seoContent } from "../../seo/content";
+import { buildContactSchemas } from "../../seo/schema";
 
 const lang = "es";
 const t = useTranslations(lang);
+const seo = seoContent[lang];
+const schema = buildContactSchemas({
+  lang,
+  title: seo.metadata.contact.title,
+  description: seo.metadata.contact.description,
+  homeLabel: t("nav.home"),
+  contactLabel: t("nav.contact"),
+});
 ---
 
 <BaseLayout
-  title={`${t("contact.title")} — Jesús Villar`}
-  description={t("contact.description")}
+  title={seo.metadata.contact.title}
+  description={seo.metadata.contact.description}
+  canonicalPath="/es/contact/"
+  keywords={seo.metadata.contact.keywords}
+  schema={schema}
 >
   <div class="container container--narrow">
     <header class="page-header">

@@ -22,7 +22,7 @@ sections:
     imagePosition: "full"
     image:
       src: "../../../assets/vodafone/configurador.png"
-      alt: ""
+      alt: "Configurador interactivo de tarifas desarrollado para Vodafone"
   - title: "Desarrollo y mantenimiento del repositorio y biblioteca de componentes web."
     text: "En este equipo ejercí tareas como el desarrollo de nuevos componentes y la evolución de los existentes tanto en **Vanilla JS** como en **Angular**. También tuvimos que abordar una refactorización masiva de componentes para cumplir los estándares de accesibilidad ante la presión de auditorías externas, lo cual dio paso a uno de los principios que guían mi desarrollo a día de hoy: **- accessibility first -**. También participé en la migración de la documentación legacy a un nuevo formato desarrollado con **Docusaurus**, y en el desarrollo de una nueva arquitectura para el monorepo global basada en la **arquitectura de islas**, que utiliza mi framework favorito, Astro. El objetivo de este nuevo paradigma era mejorar el rendimiento global de la web mediante la carga selectiva de los recursos necesarios."
     imagePosition: ""
@@ -33,7 +33,7 @@ sections:
     imagePosition: "full"
     image:
       src: "../../../assets/vodafone/ally-analyzer.png"
-      alt: "Resultados del rediseño Vodafone"
+      alt: "Interfaz y resultados de la extensión A11Y Analyzer para Vodafone"
 techStack: ["HTML", "CSS", "Angular", "React", "Figma", "Vanilla JS"]
 links:
   live: "https://www.vodafone.es/c/particulares/es/"

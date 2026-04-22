@@ -1,16 +1,18 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ComponentsGalleryPage from "../../components/ComponentsGalleryPage.astro";
-import { useTranslations } from "../../i18n/utils";
+import { seoContent } from "../../seo/content";
 
 const lang = "es";
-const t = useTranslations(lang);
+const seo = seoContent[lang];
 ---
 
 <BaseLayout
-  title={`Galeria de Componentes | ${t("home.title")}`}
-  description="Biblioteca de componentes con todas las variantes usadas en el sitio."
-  canonicalPath="/es/components-galery/"
+  title={seo.metadata.componentsGallery.title}
+  description={seo.metadata.componentsGallery.description}
+  canonicalPath="/es/components-gallery/"
+  keywords={seo.metadata.componentsGallery.keywords}
+  noindex={true}
 >
   <ComponentsGalleryPage lang="es" />
 </BaseLayout>

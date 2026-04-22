@@ -1,0 +1,127 @@
+---
+import type { Lang } from "../i18n/ui";
+import { seoContent } from "../seo/content";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const copy = seoContent[lang].home;
+---
+
+<section class="container container--narrow home-seo">
+  <p class="home-seo__eyebrow">{copy.eyebrow}</p>
+  <h2 class="title--inter home-seo__title">{copy.title}</h2>
+  <p class="home-seo__body">{copy.body}</p>
+  <p class="home-seo__note">{copy.note}</p>
+
+  <div class="home-seo__services">
+    <h3 class="title--inter-700">{copy.servicesTitle}</h3>
+    <ul>
+      {copy.services.map((service) => <li>{service}</li>)}
+    </ul>
+  </div>
+</section>
+
+<section class="container container--narrow home-faq">
+  <h2 class="title--inter home-faq__title">{copy.faqTitle}</h2>
+  <div class="home-faq__list">
+    {
+      copy.faqs.map((faq, index) => (
+        <details class="home-faq__item" open={index === 0}>
+          <summary>{faq.question}</summary>
+          <p>{faq.answer}</p>
+        </details>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .home-seo,
+  .home-faq {
+    margin-bottom: var(--space-3xl);
+  }
+
+  .home-seo__eyebrow {
+    display: inline-flex;
+    margin-bottom: var(--space-md);
+    padding: var(--space-xs) var(--space-md);
+    border: var(--border-medium) solid var(--color-border);
+    border-radius: var(--radius-full);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .home-seo__title,
+  .home-faq__title {
+    margin-bottom: var(--space-lg);
+    color: var(--color-navy);
+  }
+
+  .home-seo__body,
+  .home-seo__note {
+    max-width: 72ch;
+    margin-bottom: var(--space-md);
+  }
+
+  .home-seo__note {
+    color: var(--color-text-muted);
+  }
+
+  .home-seo__services {
+    margin-top: var(--space-xl);
+    padding: var(--space-xl);
+    border: var(--border-thick) solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(180deg, #fff9ea 0%, #ffffff 100%);
+    box-shadow: var(--shadow-md);
+  }
+
+  .home-seo__services h3 {
+    margin-bottom: var(--space-md);
+  }
+
+  .home-seo__services ul {
+    display: grid;
+    gap: var(--space-md);
+    list-style: disc;
+    padding-left: 1.25rem;
+  }
+
+  .home-seo__services li {
+    line-height: 1.6;
+  }
+
+  .home-faq__list {
+    display: grid;
+    gap: var(--space-md);
+  }
+
+  .home-faq__item {
+    border: var(--border-medium) solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+    padding: var(--space-lg);
+  }
+
+  .home-faq__item summary {
+    cursor: pointer;
+    font-weight: 700;
+    list-style: none;
+  }
+
+  .home-faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .home-faq__item p {
+    margin-top: var(--space-sm);
+  }
+</style>

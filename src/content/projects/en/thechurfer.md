@@ -20,7 +20,7 @@ sections:
     imagePosition: "right"
     image:
       src: "../../../assets/churfer/mobile1.jpg"
-      alt: ""
+      alt: "Mobile version of the immersive The Churfer portfolio"
   - title: "Visual Identity"
     text: "The logo is inspired by the aesthetic of early-2000s surf brands such as Quiksilver and O'Neill, using a thick, compact type style with an organic character, intentionally moving away from an overly techy or minimalist look. It is also designed to be reproduced easily across different media: digital, screen printing, and vinyl."
     imagePosition: "left"
@@ -32,7 +32,7 @@ sections:
     imagePosition: "full"
     image:
       src: "../../../assets/churfer/detalle-foto.png"
-      alt: ""
+      alt: "Editorial photo detail within the The Churfer website"
 techStack: ["Astro", "TypeScript", "CSS", "Emdash CMS", "Cloudinary"]
 links:
   live: "https://the-churfer-website.vercel.app/"
