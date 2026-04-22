@@ -1,6 +1,6 @@
 ---
-import { existsSync } from "node:fs";
 import type { CollectionEntry } from "astro:content";
+import { Image } from "astro:assets";
 import altLogo from "../assets/alt-logo.png";
 import { getLangFromUrl, localizedPath, getProjectSlug } from "../i18n/utils";
 
@@ -14,11 +14,7 @@ const { title, thumbnail, tags } = project.data;
 const slug = getProjectSlug(project.id);
 
 const useAltLogoForCard = slug === "jv-portfolio";
-const thumbnailExists = thumbnail?.src
-  ? existsSync(new URL(`../../public${thumbnail.src}`, import.meta.url))
-  : false;
-const useFallbackMedia =
-  useAltLogoForCard || !thumbnail?.src || !thumbnailExists;
+const useFallbackMedia = useAltLogoForCard || !thumbnail?.src;
 ---
 
 <a
@@ -30,20 +26,24 @@ const useFallbackMedia =
   <article class="simple-card__frame">
     {
       useFallbackMedia ? (
-        <img
+        <Image
           class="simple-card__image simple-card__image--fallback"
-          src={altLogo.src}
-          width={altLogo.width}
-          height={altLogo.height}
+          src={altLogo}
           alt="Jesús Villar alt logo"
           loading="lazy"
+          format="webp"
+          widths={[480, 768, 1024]}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
       ) : (
-        <img
+        <Image
           class="simple-card__image"
           src={thumbnail.src}
           alt={thumbnail.alt}
           loading="lazy"
+          format="webp"
+          widths={[480, 768, 1024]}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
       )
     }

@@ -4,7 +4,7 @@ description: "Full-stack web application for team task management with real-time
 tags: ["design", "development"]
 date: 2026-04-01
 thumbnail:
-  src: "/images/projects/churfer.png"
+  src: "../../../assets/churfer.png"
   alt: "The Churfer project cover"
 featured: true
 lang: en

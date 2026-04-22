@@ -5,7 +5,7 @@ tags: ["development"]
 date: 2026-01-15
 dateLabel: "jun 2022 - jun 2025"
 thumbnail:
-  src: "/images/projects/vodafone.png"
+  src: "../../../assets/vodafone.png"
   alt: "Vodafone Spain project cover"
 featured: true
 lang: en

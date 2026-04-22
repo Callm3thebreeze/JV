@@ -7,28 +7,29 @@ const projects = defineCollection({
     base: './src/content/projects',
     pattern: '**/*.md',
   }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    tags: z.array(z.enum(['design', 'development'])),
-    date: z.coerce.date(),
-    dateLabel: z.string().optional(),
-    thumbnail: z.object({
-      src: z.string(),
-      alt: z.string(),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      description: z.string(),
+      tags: z.array(z.enum(['design', 'development'])),
+      date: z.coerce.date(),
+      dateLabel: z.string().optional(),
+      thumbnail: z.object({
+        src: image(),
+        alt: z.string(),
+      }),
+      featured: z.boolean().default(false),
+      lang: z.enum(['en', 'es']),
+      translationId: z.string(),
+      techStack: z.array(z.string()).default([]),
+      links: z
+        .object({
+          live: z.string().url().optional(),
+          repo: z.string().url().optional(),
+          figma: z.string().url().optional(),
+        })
+        .default({}),
     }),
-    featured: z.boolean().default(false),
-    lang: z.enum(['en', 'es']),
-    translationId: z.string(),
-    techStack: z.array(z.string()).default([]),
-    links: z
-      .object({
-        live: z.string().url().optional(),
-        repo: z.string().url().optional(),
-        figma: z.string().url().optional(),
-      })
-      .default({}),
-  }),
 });
 
 export const collections = { projects };

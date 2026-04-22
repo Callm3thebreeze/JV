@@ -1,6 +1,6 @@
 ---
-import { existsSync } from "node:fs";
 import type { CollectionEntry } from "astro:content";
+import { Image } from "astro:assets";
 import Card from "./Card.astro";
 import Pill from "./Pill.astro";
 import {
@@ -21,11 +21,7 @@ const { project, showDescription = false } = Astro.props;
 const { title, description, tags, date, dateLabel, thumbnail } = project.data;
 const slug = getProjectSlug(project.id);
 const useAltLogoForCard = slug === "jv-portfolio";
-const thumbnailExists = thumbnail?.src
-  ? existsSync(new URL(`../../public${thumbnail.src}`, import.meta.url))
-  : false;
-const useFallbackMedia =
-  useAltLogoForCard || !thumbnail?.src || !thumbnailExists;
+const useFallbackMedia = useAltLogoForCard || !thumbnail?.src;
 
 const cardVariant = "blue";
 
@@ -57,13 +53,16 @@ const tagVariantMap = {
     defaultMediaAlt="Jesús Villar alt logo"
   >
     {
-      !useAltLogoForCard && thumbnail?.src && thumbnailExists && (
-        <img
+      !useAltLogoForCard && thumbnail?.src && (
+        <Image
           slot="media"
           class="card-thumbnail"
           src={thumbnail.src}
           alt={thumbnail.alt}
           loading="lazy"
+          format="webp"
+          widths={[480, 768, 1024]}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
       )
     }

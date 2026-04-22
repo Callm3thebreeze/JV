@@ -4,7 +4,7 @@ description: "A responsive weather dashboard consuming multiple APIs with data v
 tags: ["design", "development"]
 date: 2025-05-10
 thumbnail:
-  src: "/images/projects/weather-dashboard.jpg"
+  src: "../../../assets/jv-portfolio.png"
   alt: "Weather dashboard interface"
 featured: false
 lang: en

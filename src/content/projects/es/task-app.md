@@ -4,7 +4,7 @@ description: "Aplicación web full-stack para gestión de tareas en equipo con a
 tags: ["design", "development"]
 date: 2026-04-01
 thumbnail:
-  src: "/images/projects/churfer.png"
+  src: "../../../assets/churfer.png"
   alt: "Portada del proyecto The Churfer"
 featured: true
 lang: es

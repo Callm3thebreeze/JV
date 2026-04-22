@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
+import { Image } from "astro:assets";
 import Pill from "../components/Pill.astro";
 import {
   getLangFromUrl,
@@ -75,11 +76,14 @@ const tagVariantMap = {
 
     {
       thumbnail && (
-        <img
+        <Image
           class="project-thumbnail"
           src={thumbnail.src}
           alt={thumbnail.alt}
           loading="eager"
+          format="webp"
+          widths={[720, 960, 1280]}
+          sizes="(max-width: 820px) 100vw, 800px"
         />
       )
     }

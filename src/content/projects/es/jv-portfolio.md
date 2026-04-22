@@ -4,7 +4,7 @@ description: "Un dashboard meteorológico responsive que consume múltiples APIs
 tags: ["design", "development"]
 date: 2025-05-10
 thumbnail:
-  src: "/images/projects/weather-dashboard.jpg"
+  src: "../../../assets/jv-portfolio.png"
   alt: "Interfaz del dashboard meteorológico"
 featured: false
 lang: es
