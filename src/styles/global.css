@@ -68,7 +68,7 @@
 
   /* ---- Layout ---- */
   --max-width: 1300px;
-  --content-width: 800px;
+  --content-width: 950px;
   --header-height: 4.5rem;
 
   /* ---- Borders & Radius ---- */
@@ -226,8 +226,14 @@ p {
 
 .title--inter {
   font-family: var(--font-body) !important;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.title--inter-700 {
+  font-family: var(--font-body) !important;
   font-weight: 700;
-  letter-spacing: -0.05em;
+  letter-spacing: -0.03em;
 }
 
 strong {

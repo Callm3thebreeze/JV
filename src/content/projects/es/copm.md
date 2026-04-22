@@ -1,18 +1,18 @@
 ---
-title: "Colegio Oficial de Psicologos de Madrid"
-description: "Sitio web corporativo para el Colegio Oficial de Psicologos de Madrid, centrado en una arquitectura de informacion mas clara, mayor visibilidad de servicios y una presencia institucional mas solida."
+title: "Colegio Oficial de la Psicología de Madrid"
+description: "Sitio web corporativo para el Colegio Oficial de la Psicología de Madrid, centrado en una arquitectura de informacion mas clara, mayor visibilidad de servicios y una presencia institucional mas solida."
 tags: ["development"]
 date: 2026-04-22
 thumbnail:
   src: "../../../assets/copm.png"
-  alt: "Portada del proyecto Colegio Oficial de Psicologos de Madrid"
+  alt: "Portada del proyecto Colegio Oficial de la Psicología de Madrid"
 logo:
   src: "../../../assets/copm.png"
   alt: "Logo de COPM"
 featured: false
 lang: es
 translationId: copm
-intro: "Un rediseño digital para el Colegio Oficial de Psicologos de Madrid, pensado para ordenar un gran volumen de informacion institucional en una experiencia mas clara y accesible."
+intro: "Un rediseño digital para el Colegio Oficial de la Psicología de Madrid, pensado para ordenar un gran volumen de informacion institucional en una experiencia mas clara y accesible."
 overview: "El proyecto se centró en jerarquía de contenidos y confianza institucional, con puntos de entrada claros para profesionales, colegiados y ciudadanos."
 sections:
   - title: "Objetivos"

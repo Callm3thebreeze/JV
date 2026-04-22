@@ -1,11 +1,11 @@
 ---
-title: "Colegio Oficial de Psicologos de Madrid"
+title: "Colegio Oficial de la Psicología de Madrid"
 description: "Corporate website for the Official College of Psychologists of Madrid, focused on clearer information architecture, service visibility, and institutional trust."
 tags: ["development"]
 date: 2026-04-22
 thumbnail:
   src: "../../../assets/copm.png"
-  alt: "Colegio Oficial de Psicologos de Madrid project cover"
+  alt: "Colegio Oficial de la Psicología de Madrid project cover"
 logo:
   src: "../../../assets/copm.png"
   alt: "COPM logo"

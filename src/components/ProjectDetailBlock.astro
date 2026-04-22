@@ -4,7 +4,7 @@ import type { ImageMetadata } from "astro";
 import { formatInlineRichText } from "../utils/formatRichText";
 
 interface BlockImage {
-  src: ImageMetadata;
+  src?: ImageMetadata;
   alt: string;
 }
 
@@ -23,20 +23,27 @@ const textParagraphs = text
 const textParagraphsHtml = textParagraphs.map((paragraph) =>
   formatInlineRichText(paragraph),
 );
+const renderImage = image?.src
+  ? {
+      src: image.src,
+      alt: image.alt,
+    }
+  : null;
 ---
 
 <section
   class:list={[
     "project-detail-block",
     `project-detail-block--${imagePosition}`,
+    !renderImage && "project-detail-block--no-image",
   ]}
 >
   {
-    image && imagePosition === "left" && (
+    renderImage && imagePosition === "left" && (
       <Image
         class="project-detail-block__image"
-        src={image.src}
-        alt={image.alt}
+        src={renderImage.src}
+        alt={renderImage.alt}
         format="webp"
         widths={[480, 720, 960]}
         sizes="(max-width: 820px) 100vw, 380px"
@@ -46,16 +53,16 @@ const textParagraphsHtml = textParagraphs.map((paragraph) =>
   }
 
   <div class="project-detail-block__content">
-    <h2 class="title--inter">{title}</h2>
+    <h2 class="title--inter-700">{title}</h2>
     {textParagraphsHtml.map((paragraphHtml) => <p set:html={paragraphHtml} />)}
   </div>
 
   {
-    image && imagePosition === "right" && (
+    renderImage && imagePosition === "right" && (
       <Image
         class="project-detail-block__image"
-        src={image.src}
-        alt={image.alt}
+        src={renderImage.src}
+        alt={renderImage.alt}
         format="webp"
         widths={[480, 720, 960]}
         sizes="(max-width: 820px) 100vw, 380px"
@@ -65,11 +72,11 @@ const textParagraphsHtml = textParagraphs.map((paragraph) =>
   }
 
   {
-    image && imagePosition === "full" && (
+    renderImage && imagePosition === "full" && (
       <Image
         class="project-detail-block__image project-detail-block__image--full"
-        src={image.src}
-        alt={image.alt}
+        src={renderImage.src}
+        alt={renderImage.alt}
         format="webp"
         widths={[720, 960, 1280]}
         sizes="(max-width: 820px) 100vw, 800px"
@@ -87,9 +94,20 @@ const textParagraphsHtml = textParagraphs.map((paragraph) =>
     align-items: start;
   }
 
+  @media (min-width: 1025px) {
+    .project-detail-block {
+      margin-bottom: 8rem;
+    }
+  }
+
   .project-detail-block--left,
   .project-detail-block--right {
     grid-template-columns: minmax(0, 1fr) minmax(240px, 36%);
+  }
+
+  .project-detail-block--left .project-detail-block__content,
+  .project-detail-block--right .project-detail-block__content {
+    align-self: center;
   }
 
   .project-detail-block--left {
@@ -97,6 +115,10 @@ const textParagraphsHtml = textParagraphs.map((paragraph) =>
   }
 
   .project-detail-block--full {
+    grid-template-columns: 1fr;
+  }
+
+  .project-detail-block--no-image {
     grid-template-columns: 1fr;
   }
 

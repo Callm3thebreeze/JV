@@ -20,13 +20,14 @@ const projects = defineCollection({
       }),
       logo: z
         .object({
-          src: image(),
+          src: image().optional(),
           alt: z.string(),
         })
         .optional(),
       featured: z.boolean().default(false),
       lang: z.enum(['en', 'es']),
       translationId: z.string(),
+      role: z.string().optional(),
       intro: z.string().optional(),
       overview: z.string().optional(),
       sections: z
@@ -34,11 +35,14 @@ const projects = defineCollection({
           z.object({
             title: z.string(),
             text: z.string(),
-            imagePosition: z.enum(['left', 'right', 'full']).default('right'),
+            imagePosition: z.preprocess(
+              (value) => (value === '' || value == null ? 'right' : value),
+              z.enum(['left', 'right', 'full']),
+            ),
             image: z
               .object({
-                src: image(),
-                alt: z.string(),
+                src: image().optional(),
+                alt: z.string().default(''),
               })
               .optional(),
           }),
