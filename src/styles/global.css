@@ -258,7 +258,6 @@ strong {
 
 main {
   flex: 1;
-  padding-block: var(--space-2xl);
 }
 
 .sr-only {
