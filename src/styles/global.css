@@ -224,6 +224,12 @@ p {
   line-height: 1.7;
 }
 
+.title--inter {
+  font-family: var(--font-body) !important;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+}
+
 strong {
   font-weight: 700;
   color: var(--color-navy);

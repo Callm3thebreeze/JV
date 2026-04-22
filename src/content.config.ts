@@ -18,9 +18,32 @@ const projects = defineCollection({
         src: image(),
         alt: z.string(),
       }),
+      logo: z
+        .object({
+          src: image(),
+          alt: z.string(),
+        })
+        .optional(),
       featured: z.boolean().default(false),
       lang: z.enum(['en', 'es']),
       translationId: z.string(),
+      intro: z.string().optional(),
+      overview: z.string().optional(),
+      sections: z
+        .array(
+          z.object({
+            title: z.string(),
+            text: z.string(),
+            imagePosition: z.enum(['left', 'right', 'full']).default('right'),
+            image: z
+              .object({
+                src: image(),
+                alt: z.string(),
+              })
+              .optional(),
+          }),
+        )
+        .default([]),
       techStack: z.array(z.string()).default([]),
       links: z
         .object({

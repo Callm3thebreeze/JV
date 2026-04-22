@@ -1,6 +1,6 @@
 ---
 import ProjectLayout from "../../layouts/ProjectLayout.astro";
-import { getCollection, render } from "astro:content";
+import { getCollection } from "astro:content";
 import { getProjectSlug } from "../../i18n/utils";
 import type { CollectionEntry } from "astro:content";
 
@@ -19,9 +19,6 @@ interface Props {
 }
 
 const { project } = Astro.props;
-const { Content } = await render(project);
 ---
 
-<ProjectLayout project={project}>
-  <Content />
-</ProjectLayout>
+<ProjectLayout project={project} />

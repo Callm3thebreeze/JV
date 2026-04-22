@@ -2,13 +2,8 @@
 import BaseLayout from "./BaseLayout.astro";
 import { Image } from "astro:assets";
 import Pill from "../components/Pill.astro";
-import {
-  getLangFromUrl,
-  useTranslations,
-  localizedPath,
-  getProjectTranslation,
-  getProjectSlug,
-} from "../i18n/utils";
+import ProjectDetailBlock from "../components/ProjectDetailBlock.astro";
+import { getLangFromUrl, useTranslations, localizedPath } from "../i18n/utils";
 import type { CollectionEntry } from "astro:content";
 import { resolveProjectThumbnail } from "../utils/projectThumbnail";
 
@@ -25,15 +20,15 @@ const {
   tags,
   date,
   thumbnail,
+  logo,
+  intro,
+  overview,
+  sections,
   techStack,
   links,
-  translationId,
 } = project.data;
-
-const targetLang = lang === "en" ? "es" : "en";
-const translation = await getProjectTranslation(translationId, targetLang);
-const translationSlug = translation ? getProjectSlug(translation.id) : null;
-const resolvedThumbnail = resolveProjectThumbnail(thumbnail?.src);
+const resolvedLogo = resolveProjectThumbnail(logo?.src ?? thumbnail?.src);
+const logoAlt = logo?.alt ?? thumbnail?.alt;
 
 const formattedDate = date.toLocaleDateString(
   lang === "es" ? "es-ES" : "en-US",
@@ -53,13 +48,6 @@ const tagVariantMap = {
   <article class="container container--narrow">
     <nav class="project-nav">
       <a href={localizedPath(lang, "/projects/")}>&larr; {t("project.back")}</a>
-      {
-        translationSlug && (
-          <a href={localizedPath(targetLang, `/projects/${translationSlug}/`)}>
-            {t("project.otherLang")}
-          </a>
-        )
-      }
     </nav>
 
     <header class="project-header">
@@ -72,32 +60,47 @@ const tagVariantMap = {
           ))
         }
       </div>
-      <h1>{title}</h1>
-      <p class="project-date">{formattedDate}</p>
+      <div class="project-title-row">
+        <div>
+          <h1 class="title--inter">{title}</h1>
+          <p class="project-date">{formattedDate}</p>
+        </div>
+        {
+          resolvedLogo && (
+            <Image
+              class="project-logo"
+              src={resolvedLogo}
+              alt={logoAlt}
+              loading="eager"
+              format="webp"
+              widths={[220, 320, 440]}
+              sizes="(max-width: 820px) 120px, 180px"
+            />
+          )
+        }
+      </div>
     </header>
 
-    {
-      resolvedThumbnail && (
-        <Image
-          class="project-thumbnail"
-          src={resolvedThumbnail}
-          alt={thumbnail.alt}
-          loading="eager"
-          format="webp"
-          widths={[720, 960, 1280]}
-          sizes="(max-width: 820px) 100vw, 800px"
-        />
-      )
-    }
+    <section class="project-content project-intro-block">
+      <p>{intro ?? description}</p>
+      {overview && <p>{overview}</p>}
+    </section>
 
-    <div class="project-content">
-      <slot />
-    </div>
+    {
+      sections.map((section) => (
+        <ProjectDetailBlock
+          title={section.title}
+          text={section.text}
+          image={section.image}
+          imagePosition={section.imagePosition}
+        />
+      ))
+    }
 
     {
       techStack.length > 0 && (
         <section class="project-tech">
-          <h2>{t("project.techStack")}</h2>
+          <h2 class="title--inter">{t("project.techStack")}</h2>
           <ul class="tech-list">
             {techStack.map((tech) => (
               <li>{tech}</li>
@@ -143,6 +146,13 @@ const tagVariantMap = {
     margin-bottom: var(--space-xl);
   }
 
+  .project-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-lg);
+  }
+
   .project-tags {
     display: flex;
     gap: var(--space-sm);
@@ -155,10 +165,15 @@ const tagVariantMap = {
     font-size: var(--text-sm);
   }
 
-  .project-thumbnail {
-    width: 100%;
-    border-radius: var(--radius-lg);
-    margin-bottom: var(--space-xl);
+  .project-logo {
+    width: clamp(96px, 18vw, 180px);
+    height: auto;
+    border-radius: var(--radius-sm);
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: transparent;
+    object-fit: contain;
   }
 
   .project-content {
@@ -166,18 +181,12 @@ const tagVariantMap = {
     line-height: 1.8;
   }
 
-  .project-content :global(h2) {
-    margin-top: var(--space-xl);
-    margin-bottom: var(--space-md);
+  .project-intro-block {
+    margin-top: var(--space-md);
   }
 
-  .project-content :global(p) {
+  .project-intro-block p {
     margin-bottom: var(--space-md);
-  }
-
-  .project-content :global(img) {
-    border-radius: var(--radius-md);
-    margin-block: var(--space-lg);
   }
 
   .project-tech {
@@ -212,5 +221,15 @@ const tagVariantMap = {
 
   .project-links a {
     font-weight: 600;
+  }
+
+  @media (max-width: 820px) {
+    .project-title-row {
+      align-items: center;
+    }
+
+    .project-logo {
+      width: clamp(84px, 24vw, 140px);
+    }
   }
 </style>

@@ -6,26 +6,29 @@ date: 2026-04-22
 thumbnail:
   src: "../../../assets/copm.png"
   alt: "Portada del proyecto Colegio Oficial de Psicologos de Madrid"
+logo:
+  src: "../../../assets/copm.png"
+  alt: "Logo de COPM"
 featured: false
 lang: es
 translationId: copm
+intro: "Un rediseño digital para el Colegio Oficial de Psicologos de Madrid, pensado para ordenar un gran volumen de informacion institucional en una experiencia mas clara y accesible."
+overview: "El proyecto se centró en jerarquía de contenidos y confianza institucional, con puntos de entrada claros para profesionales, colegiados y ciudadanos."
+sections:
+  - title: "Objetivos"
+    text: "Mejorar la navegacion para profesionales, colegiados y ciudadanos.\n\nDar mas visibilidad a servicios, formacion y recursos.\n\nTransmitir credibilidad mediante un sistema visual mas limpio y un contenido mejor estructurado."
+    imagePosition: "right"
+    image:
+      src: "../../../assets/copm.png"
+      alt: "Vista de descubrimiento de servicios COPM"
+  - title: "Diseno y Desarrollo"
+    text: "El proyecto combina planteamiento UX, diseno de interfaz e implementacion front-end. El foco estuvo en la accesibilidad, la jerarquia de contenidos y el buen comportamiento responsive en paginas informativas extensas."
+    imagePosition: "left"
+    image:
+      src: "../../../assets/copm.png"
+      alt: "Layout responsive COPM"
+  - title: "Resultado"
+    text: "El resultado es un sitio institucional mas legible, con mejor orientacion, mayor facilidad para encontrar contenidos y un lenguaje visual mas sereno y alineado con el papel publico de la entidad."
+    imagePosition: "full"
 techStack: ["Astro", "TypeScript", "CSS", "Accesibilidad"]
 ---
-
-## Resumen
-
-Un rediseño digital para el Colegio Oficial de Psicologos de Madrid, pensado para ordenar un gran volumen de informacion institucional en una experiencia mas clara y accesible.
-
-## Objetivos
-
-- Mejorar la navegacion para profesionales, colegiados y ciudadanos.
-- Dar mas visibilidad a servicios, formacion y recursos.
-- Transmitir credibilidad mediante un sistema visual mas limpio y un contenido mejor estructurado.
-
-## Diseno y Desarrollo
-
-El proyecto combina planteamiento UX, diseno de interfaz e implementacion front-end. El foco estuvo en la accesibilidad, la jerarquia de contenidos y el buen comportamiento responsive en paginas informativas extensas.
-
-## Resultado
-
-El resultado es un sitio institucional mas legible, con mejor orientacion, mayor facilidad para encontrar contenidos y un lenguaje visual mas sereno y alineado con el papel publico de la entidad.
