@@ -81,6 +81,7 @@ const t = useTranslations(lang);
 
   .hero > .container {
     width: 100%;
+    padding-block: var(--space-2xl);
   }
 
   .hero-intro {
@@ -128,11 +129,15 @@ const t = useTranslations(lang);
     justify-content: center;
   }
 
+  .hero-cta :global(.btn) {
+    width: 13.5rem;
+    justify-content: center;
+  }
+
   @media (min-width: 861px) {
     .hero {
       min-height: calc(100svh - var(--header-height));
       display: flex;
-      align-items: center;
     }
 
     .hero > .container {
@@ -173,10 +178,6 @@ const t = useTranslations(lang);
   }
 
   @media (max-width: 860px) {
-    .hero {
-      padding-block: var(--space-2xl);
-    }
-
     .hero-intro {
       grid-template-columns: 1fr;
       gap: var(--space-xl);
