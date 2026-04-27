@@ -1,56 +1,96 @@
 ---
+import { Image } from "astro:assets";
 import { getLangFromUrl, useTranslations } from "../i18n/utils";
+import contactIllustration from "../assets/contact-illustr.png";
 import Button from "./Button.astro";
+import Card from "./Card.astro";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
 
-<form
-  class="contact-form"
-  action="https://formspree.io/f/YOUR_FORM_ID"
-  method="POST"
->
-  <!-- Honeypot anti-spam -->
-  <input
-    type="text"
-    name="_gotcha"
-    style="display:none"
-    tabindex="-1"
-    autocomplete="off"
-  />
+<div class="contact-form-layout">
+  <Card variant="blue" class="contact-form-card">
+    <form
+      class="contact-form"
+      action="https://formspree.io/f/YOUR_FORM_ID"
+      method="POST"
+    >
+      <!-- Honeypot anti-spam -->
+      <input
+        type="text"
+        name="_gotcha"
+        style="display:none"
+        tabindex="-1"
+        autocomplete="off"
+      />
 
-  <div class="form-group">
-    <label for="name">{t("contact.form.name")}</label>
-    <input type="text" id="name" name="name" required autocomplete="name" />
-  </div>
+      <div class="form-field">
+        <input
+          type="text"
+          id="name"
+          name="name"
+          required
+          autocomplete="name"
+          placeholder=" "
+        />
+        <label for="name">{t("contact.form.name")}</label>
+      </div>
 
-  <div class="form-group">
-    <label for="email">{t("contact.form.email")}</label>
-    <input type="email" id="email" name="email" required autocomplete="email" />
-  </div>
+      <div class="form-field">
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          autocomplete="email"
+          placeholder=" "
+        />
+        <label for="email">{t("contact.form.email")}</label>
+      </div>
 
-  <div class="form-group">
-    <label for="subject">{t("contact.form.subject")}</label>
-    <input type="text" id="subject" name="subject" required />
-  </div>
+      <div class="form-field">
+        <input
+          type="text"
+          id="subject"
+          name="subject"
+          required
+          placeholder=" "
+        />
+        <label for="subject">{t("contact.form.subject")}</label>
+      </div>
 
-  <div class="form-group">
-    <label for="message">{t("contact.form.message")}</label>
-    <textarea id="message" name="message" rows="6" required></textarea>
-  </div>
+      <div class="form-field form-field--textarea">
+        <textarea id="message" name="message" rows="6" required placeholder=" "
+        ></textarea>
+        <label for="message">{t("contact.form.message")}</label>
+      </div>
 
-  <Button
-    type="submit"
-    variant="primary"
-    size="md"
-    class="contact-form__submit"
-  >
-    {t("contact.form.send")}
-  </Button>
+      <Button
+        type="submit"
+        variant="primary"
+        size="md"
+        class="contact-form__submit"
+      >
+        {t("contact.form.send")}
+      </Button>
 
-  <p class="form-status" aria-live="polite"></p>
-</form>
+      <p class="form-status" aria-live="polite"></p>
+    </form>
+  </Card>
+
+  <aside class="contact-form__art" aria-hidden="true">
+    <Image
+      src={contactIllustration}
+      alt=""
+      class="contact-form__illustration"
+      format="webp"
+      widths={[320, 420, 520]}
+      sizes="(max-width: 900px) min(78vw, 26rem), 28rem"
+      loading="eager"
+    />
+  </aside>
+</div>
 
 <script>
   document.addEventListener("astro:page-load", () => {
@@ -98,38 +138,101 @@ const t = useTranslations(lang);
 </script>
 
 <style>
+  :global(.contact-form-card) {
+    width: 100%;
+    --contact-form-bg: #fff;
+    --card-background-color: var(--contact-form-bg);
+  }
+
+  .contact-form-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(16rem, 0.8fr);
+    align-items: center;
+    gap: clamp(1.5rem, 3vw, 3rem);
+    width: 100%;
+  }
+
   .contact-form {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
-    max-width: 600px;
+    display: grid;
+    gap: var(--space-lg);
+    width: 100%;
+    min-width: 0;
   }
 
-  .form-group {
+  .contact-form__art {
     display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 28rem;
+    margin-left: auto;
   }
 
-  label {
+  .contact-form__illustration {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .form-field {
+    position: relative;
+  }
+
+  .form-field label {
+    position: absolute;
+    top: 50%;
+    left: var(--space-md);
+    transform: translateY(-50%);
+    transform-origin: left center;
+    padding-inline: 0.35rem;
+    margin-left: -0.35rem;
     font-size: var(--text-base);
     font-weight: 600;
+    line-height: 1;
+    color: color-mix(in srgb, var(--color-navy) 68%, white);
+    background-color: var(--contact-form-bg, #fff);
+    transition:
+      top var(--transition-fast),
+      transform var(--transition-fast),
+      color var(--transition-fast),
+      font-size var(--transition-fast);
   }
 
-  input,
-  textarea {
-    padding: var(--space-sm) var(--space-md);
+  .form-field :is(input, textarea) {
+    width: 100%;
+    padding: 1.25rem var(--space-md) 0.7rem;
     border: 3px solid var(--color-border);
     border-radius: var(--radius-md);
-    background-color: var(--color-surface);
+    background-color: var(--contact-form-bg, #fff);
     color: var(--color-text);
-    transition: border-color var(--transition-fast);
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast);
   }
 
-  input:focus,
-  textarea:focus {
+  .form-field textarea {
+    min-height: 11rem;
+    resize: vertical;
+    padding-top: 1.7rem;
+  }
+
+  .form-field--textarea label {
+    top: 1.35rem;
+    transform: translateY(0);
+  }
+
+  .form-field :is(input, textarea):focus {
     outline: none;
     border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(31, 69, 204, 0.18);
+  }
+
+  .form-field :is(input, textarea):focus + label,
+  .form-field :is(input, textarea):not(:placeholder-shown) + label {
+    top: 0;
+    transform: translateY(-50%) scale(0.88);
+    font-size: var(--text-sm);
+    color: var(--color-blue);
   }
 
   .contact-form__submit {
@@ -147,5 +250,29 @@ const t = useTranslations(lang);
 
   .form-status--error {
     color: #dc2626;
+  }
+
+  @media (max-width: 900px) {
+    .contact-form-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .contact-form__art {
+      max-width: min(100%, 24rem);
+      margin-inline: auto;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .form-field label {
+      left: calc(var(--space-sm) + 0.35rem);
+      margin-left: 0;
+    }
+
+    .form-field :is(input, textarea) {
+      width: calc(100% - 0.75rem);
+      margin-inline: auto;
+      padding-inline: 0.85rem;
+    }
   }
 </style>

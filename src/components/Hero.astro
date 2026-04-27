@@ -33,6 +33,7 @@ const t = useTranslations(lang);
             variant="primary"
             size="lg"
             iconPosition="right"
+            data-hero-cta
           >
             {t("home.hero.cta.projects")}
             <svg
@@ -53,6 +54,7 @@ const t = useTranslations(lang);
             variant="secondary"
             size="lg"
             iconPosition="right"
+            data-hero-cta
           >
             {t("home.hero.cta.contact")}
             <svg
@@ -134,6 +136,11 @@ const t = useTranslations(lang);
     justify-content: center;
   }
 
+  .hero-cta :global(.btn.is-pressed) {
+    transform: translate(2px, 2px);
+    box-shadow: none !important;
+  }
+
   @media (min-width: 861px) {
     .hero {
       min-height: calc(100svh - var(--header-height));
@@ -178,6 +185,10 @@ const t = useTranslations(lang);
   }
 
   @media (max-width: 860px) {
+    .hero > .container {
+      padding-block: 0;
+    }
+
     .hero-intro {
       grid-template-columns: 1fr;
       gap: var(--space-xl);
@@ -223,6 +234,7 @@ const t = useTranslations(lang);
   import { createTimeline, type Timeline } from "animejs";
 
   const HOME_PATHS = new Set(["/", "/es", "/es/"]);
+  const HERO_CTA_PRESS_DURATION_MS = 110;
   const LAST_VARIANT_STORAGE_KEY = "jv-main-logo-last-variant";
   const ROTATING_VARIANTS = [
     "boomerangLanding",
@@ -481,10 +493,72 @@ const t = useTranslations(lang);
     });
   };
 
+  const setupHeroCtaPressEffect = () => {
+    const heroCtas = document.querySelectorAll("a[data-hero-cta]");
+
+    for (const heroCta of heroCtas) {
+      if (!(heroCta instanceof HTMLAnchorElement)) continue;
+      if (heroCta.dataset.heroCtaBound === "true") continue;
+
+      let pressTimeoutId: number | undefined;
+
+      const clearPressedState = () => {
+        if (pressTimeoutId !== undefined) {
+          window.clearTimeout(pressTimeoutId);
+          pressTimeoutId = undefined;
+        }
+
+        heroCta.classList.remove("is-pressed");
+      };
+
+      const queuePressedReset = () => {
+        clearPressedState();
+        heroCta.classList.add("is-pressed");
+        pressTimeoutId = window.setTimeout(() => {
+          heroCta.classList.remove("is-pressed");
+          pressTimeoutId = undefined;
+        }, HERO_CTA_PRESS_DURATION_MS);
+      };
+
+      heroCta.addEventListener("pointerdown", (event) => {
+        if (event.button !== 0) return;
+        clearPressedState();
+        heroCta.classList.add("is-pressed");
+      });
+
+      heroCta.addEventListener("pointerup", () => {
+        // Let Astro capture the native click while the pressed state is visible.
+      });
+
+      heroCta.addEventListener("pointerleave", clearPressedState);
+      heroCta.addEventListener("pointercancel", clearPressedState);
+      heroCta.addEventListener("blur", clearPressedState);
+
+      heroCta.addEventListener("click", (event) => {
+        if (event.defaultPrevented) return;
+        if (event.button !== 0) return;
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
+          return;
+        if (heroCta.target && heroCta.target !== "_self") return;
+
+        queuePressedReset();
+      });
+
+      heroCta.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter") return;
+        queuePressedReset();
+      });
+
+      heroCta.dataset.heroCtaBound = "true";
+    }
+  };
+
   if (!windowState.__jvMainLogoIntroBound) {
     document.addEventListener("astro:page-load", scheduleMainLogoIntro);
+    document.addEventListener("astro:page-load", setupHeroCtaPressEffect);
     windowState.__jvMainLogoIntroBound = true;
   }
 
   scheduleMainLogoIntro();
+  setupHeroCtaPressEffect();
 </script>

@@ -107,12 +107,12 @@ const classes = [
 <style>
   .ui-card {
     --card-border-color: var(--color-navy);
-    background-color: var(--color-bg);
+    background-color: var(--card-background-color, var(--color-bg));
     border: var(--border-thick) solid var(--card-border-color);
     box-shadow: 4px 4px 0 var(--card-border-color);
     border-radius: clamp(1.25rem, 2vw, 1.75rem);
     color: var(--color-navy);
-    padding: clamp(1.5rem, 2vw, 2.5rem);
+    padding: var(--space-lg);
     overflow: hidden;
   }
 
@@ -133,7 +133,7 @@ const classes = [
   }
 
   .ui-card__media {
-    margin: calc(clamp(1.5rem, 2vw, 2.5rem) * -1);
+    margin: calc(var(--space-lg) * -1);
     margin-bottom: var(--space-lg);
     overflow: hidden;
   }
@@ -188,11 +188,11 @@ const classes = [
 
   @media (max-width: 640px) {
     .ui-card {
-      padding: var(--space-xl);
+      padding: var(--space-lg);
     }
 
     .ui-card__media {
-      margin: calc(var(--space-xl) * -1);
+      margin: calc(var(--space-lg) * -1);
       margin-bottom: var(--space-lg);
     }
 

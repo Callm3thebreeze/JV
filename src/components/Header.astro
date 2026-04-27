@@ -35,7 +35,6 @@ const isHome = Astro.url.pathname === "/" || Astro.url.pathname === "/es/";
 
     <nav class="main-nav" aria-label="Main navigation">
       <ul>
-        <li><a href={localizedPath(lang, "/")}>{t("nav.home")}</a></li>
         <li>
           <a href={localizedPath(lang, "/projects/")}>{t("nav.projects")}</a>
         </li>
