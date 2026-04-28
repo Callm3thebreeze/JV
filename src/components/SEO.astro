@@ -1,5 +1,6 @@
 ---
 import type { Lang } from "../i18n/ui";
+import { getAlternatePath } from "../i18n/utils";
 import type { JsonLd } from "../seo/schema";
 import {
   SAME_AS_LINKS,
@@ -46,15 +47,14 @@ const canonicalUrl = canonicalPath
     : Astro.url.href;
 
 const alternateLang = lang === "en" ? "es" : "en";
-const alternatePath =
-  lang === "en" ? `/es${currentPath}` : currentPath.replace(/^\/es/, "") || "/";
+const alternateLangPath = getAlternatePath(currentPath, alternateLang);
 const alternateUrls =
   alternates === false
     ? []
     : Object.entries(
         alternates ?? {
           [lang]: currentPath,
-          [alternateLang]: alternatePath,
+          [alternateLang]: alternateLangPath,
         },
       ).map(([locale, path]) => ({
         locale,
@@ -114,16 +114,14 @@ const resolvedOgImage = ogImage
 <meta name="twitter:image" content={resolvedOgImage} />
 
 {
-  pageType === "article" &&
-    publishedTime && (
-      <meta property="article:published_time" content={publishedTime} />
-    )
+  pageType === "article" && publishedTime && (
+    <meta property="article:published_time" content={publishedTime} />
+  )
 }
 {
-  pageType === "article" &&
-    modifiedTime && (
-      <meta property="article:modified_time" content={modifiedTime} />
-    )
+  pageType === "article" && modifiedTime && (
+    <meta property="article:modified_time" content={modifiedTime} />
+  )
 }
 {
   pageType === "article" &&

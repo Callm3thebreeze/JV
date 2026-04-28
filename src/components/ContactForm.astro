@@ -71,11 +71,18 @@ const t = useTranslations(lang);
         variant="primary"
         size="md"
         class="contact-form__submit"
+        data-sending={t("contact.form.sending")}
       >
         {t("contact.form.send")}
       </Button>
 
-      <p class="form-status" aria-live="polite"></p>
+      <p
+        class="form-status"
+        aria-live="polite"
+        data-success={t("contact.form.success")}
+        data-error={t("contact.form.error")}
+      >
+      </p>
     </form>
   </Card>
 
@@ -93,9 +100,16 @@ const t = useTranslations(lang);
 </div>
 
 <script>
-  document.addEventListener("astro:page-load", () => {
+  const windowState = window as Window & {
+    __jvContactFormBound?: boolean;
+  };
+
+  const setupContactForm = () => {
     const form = document.querySelector<HTMLFormElement>(".contact-form");
     if (!form) return;
+    if (form.dataset.contactFormBound === "true") return;
+
+    form.dataset.contactFormBound = "true";
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -106,7 +120,7 @@ const t = useTranslations(lang);
       const status = form.querySelector<HTMLParagraphElement>(".form-status");
       if (!btn || !status) return;
 
-      const originalText = btn.textContent;
+      const originalText = btn.textContent ?? "";
       btn.disabled = true;
       btn.textContent = btn.dataset.sending ?? "Sending...";
       status.textContent = "";
@@ -134,7 +148,14 @@ const t = useTranslations(lang);
         btn.textContent = originalText;
       }
     });
-  });
+  };
+
+  if (!windowState.__jvContactFormBound) {
+    document.addEventListener("astro:page-load", setupContactForm);
+    windowState.__jvContactFormBound = true;
+  }
+
+  setupContactForm();
 </script>
 
 <style>

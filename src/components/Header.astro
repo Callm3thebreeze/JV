@@ -1,11 +1,16 @@
 ---
-import { getLangFromUrl, useTranslations, localizedPath } from "../i18n/utils";
+import {
+  getLangFromUrl,
+  useTranslations,
+  localizedPath,
+  isHomePath,
+} from "../i18n/utils";
 import LanguageSwitcher from "./LanguageSwitcher.astro";
 import smallLogo from "../assets/small-logo.png";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const isHome = Astro.url.pathname === "/" || Astro.url.pathname === "/es/";
+const isHome = isHomePath(Astro.url.pathname);
 ---
 
 <header class="site-header" data-site-header>

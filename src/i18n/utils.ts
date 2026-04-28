@@ -21,6 +21,45 @@ export function useTranslations(lang: Lang) {
 }
 
 /**
+ * True when pathname is localized under /es.
+ */
+export function isSpanishPath(pathname: string): boolean {
+  return pathname === '/es' || pathname.startsWith('/es/');
+}
+
+/**
+ * True when pathname points to either localized home route.
+ */
+export function isHomePath(pathname: string): boolean {
+  return pathname === '/' || pathname === '/es' || pathname === '/es/';
+}
+
+/**
+ * Convert pathname to English route (default locale, no /es prefix).
+ */
+export function toEnglishPath(pathname: string): string {
+  if (!isSpanishPath(pathname)) return pathname || '/';
+  return pathname.replace(/^\/es(?=\/|$)/, '') || '/';
+}
+
+/**
+ * Convert pathname to Spanish route (/es prefix).
+ */
+export function toSpanishPath(pathname: string): string {
+  if (isSpanishPath(pathname)) return pathname || '/es/';
+  return pathname === '/' ? '/es/' : `/es${pathname}`;
+}
+
+/**
+ * Get path for target language while preserving current route.
+ */
+export function getAlternatePath(pathname: string, targetLang: Lang): string {
+  return targetLang === defaultLang
+    ? toEnglishPath(pathname)
+    : toSpanishPath(pathname);
+}
+
+/**
  * Build a localized path. English paths have no prefix, Spanish paths are under /es/.
  */
 export function localizedPath(lang: Lang, path: string): string {

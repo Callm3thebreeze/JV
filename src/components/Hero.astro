@@ -1,5 +1,5 @@
 ---
-import { getLangFromUrl, useTranslations } from "../i18n/utils";
+import { getLangFromUrl, useTranslations, localizedPath } from "../i18n/utils";
 import mainLogo from "../assets/main-logo.png";
 import Button from "./Button.astro";
 
@@ -29,7 +29,7 @@ const t = useTranslations(lang);
 
         <div class="hero-cta">
           <Button
-            href={lang === "en" ? "/projects/" : "/es/projects/"}
+            href={localizedPath(lang, "/projects/")}
             variant="primary"
             size="lg"
             iconPosition="right"
@@ -50,7 +50,7 @@ const t = useTranslations(lang);
             </svg>
           </Button>
           <Button
-            href={lang === "en" ? "/contact/" : "/es/contact/"}
+            href={localizedPath(lang, "/contact/")}
             variant="secondary"
             size="lg"
             iconPosition="right"
@@ -524,10 +524,6 @@ const t = useTranslations(lang);
         if (event.button !== 0) return;
         clearPressedState();
         heroCta.classList.add("is-pressed");
-      });
-
-      heroCta.addEventListener("pointerup", () => {
-        // Let Astro capture the native click while the pressed state is visible.
       });
 
       heroCta.addEventListener("pointerleave", clearPressedState);
