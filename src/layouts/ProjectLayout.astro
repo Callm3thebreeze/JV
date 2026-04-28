@@ -7,7 +7,6 @@ import {
   getLangFromUrl,
   useTranslations,
   localizedPath,
-  getProjectTranslation,
   getProjectSlug,
 } from "../i18n/utils";
 import type { CollectionEntry } from "astro:content";
@@ -37,14 +36,6 @@ const {
 const resolvedLogo = logo?.src ? resolveProjectThumbnail(logo.src) : null;
 const logoAlt = logo?.alt ?? "";
 const slug = getProjectSlug(project.id);
-const otherLang = lang === "es" ? "en" : "es";
-const translatedProject = await getProjectTranslation(
-  project.data.translationId,
-  otherLang,
-);
-const translatedProjectPath = translatedProject
-  ? localizedPath(otherLang, `/projects/${getProjectSlug(translatedProject.id)}/`)
-  : null;
 const seoTitle =
   lang === "es"
     ? `${title} | Caso de estudio web | Jesús Villar`
@@ -86,11 +77,6 @@ const roleLabel = lang === "es" ? "Rol" : "Role";
   <article class="container container--narrow">
     <nav class="project-nav">
       <a href={localizedPath(lang, "/projects/")}>&larr; {t("project.back")}</a>
-      {
-        translatedProjectPath && (
-          <a href={translatedProjectPath}>{t("project.otherLang")} &rarr;</a>
-        )
-      }
     </nav>
 
     <header class="project-header">
@@ -264,7 +250,6 @@ const roleLabel = lang === "es" ? "Rol" : "Role";
 
   @media (min-width: 1025px) {
     .project-content {
-      margin-bottom: 8rem;
     }
   }
 

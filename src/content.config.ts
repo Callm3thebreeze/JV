@@ -2,6 +2,11 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
+const optionalUrl = z.preprocess(
+  (value) => (typeof value === 'string' && value.trim() === '' ? undefined : value),
+  z.url().optional(),
+);
+
 const projects = defineCollection({
   loader: glob({
     base: './src/content/projects',
@@ -51,9 +56,9 @@ const projects = defineCollection({
       techStack: z.array(z.string()).default([]),
       links: z
         .object({
-          live: z.string().url().optional(),
-          repo: z.string().url().optional(),
-          figma: z.string().url().optional(),
+          live: optionalUrl,
+          repo: optionalUrl,
+          figma: optionalUrl,
         })
         .default({}),
     }),

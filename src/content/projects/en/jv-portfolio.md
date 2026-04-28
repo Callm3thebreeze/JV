@@ -17,10 +17,10 @@ intro: "This project is my professional website: a personal platform to showcase
 overview: "The goal was to build a fast, clear, and maintainable digital presence, with a custom visual system, reusable component structure, and editable content in two languages."
 sections:
   - title: "Visual direction and experience"
-    text: "The site is built around a custom retro-pop visual language, with a defined color palette, expressive typography, and consistent UI components. The objective was to deliver a recognizable experience with personality, without compromising readability or visual hierarchy across desktop and mobile."
-    imagePosition: "right"
+    text: "The site is built around a custom retro-pop visual language, with a defined color palette, expressive typography, and consistent UI components. The objective was to deliver a recognizable experience with personality, without compromising readability or visual hierarchy across desktop and mobile.\n\n[View components gallery](/components-gallery/)."
+    imagePosition: "full"
     image:
-      src: "../../../assets/main-logo.png"
+      src: "../../../assets/jv/figma.png"
       alt: "General view of the portfolio interface"
   - title: "Architecture and content"
     text: "The website is built with **Astro** and **TypeScript**, organized around reusable components and content collections. The projects section is powered by typed markdown, making it easy to update copy, technologies, and images quickly without touching presentation structure."
@@ -28,7 +28,7 @@ sections:
   - title: "Scalability and internationalization"
     text: "The project includes bilingual support (es/en), localized routes, and utilities to keep equivalent content synchronized between languages. This lets me iterate and expand the portfolio safely while maintaining consistency in navigation, SEO, and user experience."
     imagePosition: "full"
-techStack: ["Astro", "TypeScript", "CSS", "Anime.js", "Content Collections", "i18n"]
+techStack: ["Astro", "TypeScript", "CSS", "Anime.js", "i18n"]
 links:
-  live: "https://jesusvillar.dev"
+  live: ""
 ---

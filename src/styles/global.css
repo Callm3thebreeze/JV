@@ -583,7 +583,6 @@ a.btn:hover {
 }
 
 .page-header p {
-  color: var(--color-text-muted);
   margin-top: var(--space-sm);
 }
 

@@ -28,6 +28,6 @@ sections:
   - title: "Escalabilidad e internacionalización"
     text: "El proyecto incluye soporte bilingüe (es/en), rutas localizadas y utilidades para mantener contenidos equivalentes entre idiomas. Esto me permite iterar y ampliar el portfolio de forma segura, manteniendo consistencia en navegación, SEO y experiencia de usuario."
     imagePosition: "full"
-techStack: ["Figma", "Astro", "TypeScript", "CSS", "Anime.js", "Content Collections", "i18n"]
+techStack: ["Figma", "Astro", "TypeScript", "CSS", "Anime.js", "i18n"]
 
 ---
